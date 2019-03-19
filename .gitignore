@@ -1,4 +1,6 @@
 .DS_Store
+train_data/
+src_img/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

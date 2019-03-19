@@ -12,7 +12,7 @@
       <point x="308" y="230" />
     </contour>
   </space>
-  <space id="2" occupied="1">
+  <space id="2" occupied="0">
     <rotatedRect>
       <center x="332" y="209" />
       <size w="56" h="33" />
@@ -38,7 +38,7 @@
       <point x="345" y="230" />
     </contour>
   </space>
-  <space id="4" occupied="1">
+  <space id="4" occupied="0">
     <rotatedRect>
       <center x="398" y="207" />
       <size w="54" h="36" />
@@ -77,7 +77,7 @@
       <point x="461" y="229" />
     </contour>
   </space>
-  <space id="7" occupied="1">
+  <space id="7" occupied="0">
     <rotatedRect>
       <center x="517" y="208" />
       <size w="43" h="30" />
@@ -90,7 +90,7 @@
       <point x="500" y="228" />
     </contour>
   </space>
-  <space id="8" occupied="1">
+  <space id="8" occupied="0">
     <rotatedRect>
       <center x="550" y="209" />
       <size w="48" h="28" />
@@ -116,7 +116,7 @@
       <point x="565" y="230" />
     </contour>
   </space>
-  <space id="10" occupied="1">
+  <space id="10" occupied="0">
     <rotatedRect>
       <center x="615" y="208" />
       <size w="44" h="32" />
@@ -142,7 +142,7 @@
       <point x="632" y="224" />
     </contour>
   </space>
-  <space id="12" occupied="0">
+  <space id="12" occupied="1">
     <rotatedRect>
       <center x="683" y="206" />
       <size w="39" h="34" />
@@ -207,7 +207,7 @@
       <point x="812" y="220" />
     </contour>
   </space>
-  <space id="17" occupied="0">
+  <space id="17" occupied="1">
     <rotatedRect>
       <center x="862" y="201" />
       <size w="34" h="39" />
@@ -220,7 +220,7 @@
       <point x="846" y="222" />
     </contour>
   </space>
-  <space id="18" occupied="0">
+  <space id="18" occupied="1">
     <rotatedRect>
       <center x="898" y="200" />
       <size w="35" h="36" />
@@ -246,7 +246,7 @@
       <point x="917" y="222" />
     </contour>
   </space>
-  <space id="20" occupied="1">
+  <space id="20" occupied="0">
     <rotatedRect>
       <center x="974" y="200" />
       <size w="32" h="46" />
@@ -272,7 +272,7 @@
       <point x="993" y="218" />
     </contour>
   </space>
-  <space id="22" occupied="1">
+  <space id="22" occupied="0">
     <rotatedRect>
       <center x="1045" y="199" />
       <size w="38" h="48" />
@@ -285,7 +285,7 @@
       <point x="1029" y="220" />
     </contour>
   </space>
-  <space id="23" occupied="1">
+  <space id="23" occupied="0">
     <rotatedRect>
       <center x="253" y="287" />
       <size w="57" h="34" />
@@ -298,7 +298,7 @@
       <point x="260" y="310" />
     </contour>
   </space>
-  <space id="24" occupied="1">
+  <space id="24" occupied="0">
     <rotatedRect>
       <center x="285" y="290" />
       <size w="57" h="33" />
@@ -324,7 +324,7 @@
       <point x="330" y="312" />
     </contour>
   </space>
-  <space id="26" occupied="1">
+  <space id="26" occupied="0">
     <rotatedRect>
       <center x="360" y="290" />
       <size w="52" h="38" />
@@ -350,7 +350,7 @@
       <point x="406" y="312" />
     </contour>
   </space>
-  <space id="28" occupied="1">
+  <space id="28" occupied="0">
     <rotatedRect>
       <center x="448" y="287" />
       <size w="41" h="39" />
@@ -389,7 +389,7 @@
       <point x="537" y="306" />
     </contour>
   </space>
-  <space id="31" occupied="1">
+  <space id="31" occupied="0">
     <rotatedRect>
       <center x="558" y="288" />
       <size w="42" h="38" />
@@ -415,7 +415,7 @@
       <point x="611" y="308" />
     </contour>
   </space>
-  <space id="33" occupied="1">
+  <space id="33" occupied="0">
     <rotatedRect>
       <center x="634" y="284" />
       <size w="47" h="35" />
@@ -428,7 +428,7 @@
       <point x="650" y="307" />
     </contour>
   </space>
-  <space id="34" occupied="1">
+  <space id="34" occupied="0">
     <rotatedRect>
       <center x="668" y="285" />
       <size w="43" h="38" />
@@ -467,7 +467,7 @@
       <point x="765" y="307" />
     </contour>
   </space>
-  <space id="37" occupied="0">
+  <space id="37" occupied="1">
     <rotatedRect>
       <center x="785" y="282" />
       <size w="47" h="40" />
@@ -480,7 +480,7 @@
       <point x="804" y="306" />
     </contour>
   </space>
-  <space id="38" occupied="1">
+  <space id="38" occupied="0">
     <rotatedRect>
       <center x="827" y="280" />
       <size w="39" h="50" />
@@ -493,7 +493,7 @@
       <point x="848" y="303" />
     </contour>
   </space>
-  <space id="39" occupied="1">
+  <space id="39" occupied="0">
     <rotatedRect>
       <center x="869" y="283" />
       <size w="40" h="53" />
@@ -519,7 +519,7 @@
       <point x="931" y="306" />
     </contour>
   </space>
-  <space id="41" occupied="0">
+  <space id="41" occupied="1">
     <rotatedRect>
       <center x="948" y="282" />
       <size w="37" h="48" />
@@ -545,7 +545,7 @@
       <point x="1014" y="303" />
     </contour>
   </space>
-  <space id="43" occupied="0">
+  <space id="43" occupied="1">
     <rotatedRect>
       <center x="1032" y="281" />
       <size w="37" h="50" />
@@ -857,7 +857,7 @@
       <point x="1113" y="358" />
     </contour>
   </space>
-  <space id="67" occupied="1">
+  <space id="67">
     <rotatedRect>
       <center x="156" y="442" />
       <size w="68" h="39" />
@@ -896,7 +896,7 @@
       <point x="253" y="473" />
     </contour>
   </space>
-  <space id="70" occupied="1">
+  <space id="70" occupied="0">
     <rotatedRect>
       <center x="280" y="443" />
       <size w="65" h="40" />
@@ -1143,7 +1143,7 @@
       <point x="1151" y="479" />
     </contour>
   </space>
-  <space id="89" occupied="0">
+  <space id="89" occupied="1">
     <rotatedRect>
       <center x="75" y="530" />
       <size w="75" h="36" />
@@ -1156,7 +1156,7 @@
       <point x="83" y="555" />
     </contour>
   </space>
-  <space id="90" occupied="1">
+  <space id="90" occupied="0">
     <rotatedRect>
       <center x="122" y="530" />
       <size w="73" h="52" />
@@ -1195,7 +1195,7 @@
       <point x="242" y="558" />
     </contour>
   </space>
-  <space id="93" occupied="0">
+  <space id="93" occupied="1">
     <rotatedRect>
       <center x="280" y="528" />
       <size w="68" h="54" />
@@ -1208,7 +1208,7 @@
       <point x="298" y="564" />
     </contour>
   </space>
-  <space id="94" occupied="1">
+  <space id="94" occupied="0">
     <rotatedRect>
       <center x="329" y="529" />
       <size w="71" h="56" />
@@ -1221,7 +1221,7 @@
       <point x="352" y="562" />
     </contour>
   </space>
-  <space id="95" occupied="1">
+  <space id="95" occupied="0">
     <rotatedRect>
       <center x="384" y="529" />
       <size w="69" h="54" />
@@ -1273,7 +1273,7 @@
       <point x="574" y="561" />
     </contour>
   </space>
-  <space id="99" occupied="1">
+  <space id="99" occupied="0">
     <rotatedRect>
       <center x="602" y="536" />
       <size w="64" h="47" />

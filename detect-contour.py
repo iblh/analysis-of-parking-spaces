@@ -4,7 +4,8 @@ from PIL import Image
 import numpy as np
 from xml.dom import minidom
 
-img_date = '2012-10-12_06_27_31'
+img_date = '2012-09-11_15_16_58'
+
 img = np.array(Image.open(
     './test_images/' + img_date + '.jpg'), dtype=np.uint8)
 fig, ax = plt.subplots(1, figsize=(10, 6))
