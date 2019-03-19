@@ -7,7 +7,7 @@ from xml.dom import minidom
 img_date = '2012-10-12_06_27_31'
 img = np.array(Image.open(
     './test_images/' + img_date + '.jpg'), dtype=np.uint8)
-fig, ax = plt.subplots(1, figsize=(10, 8))
+fig, ax = plt.subplots(1, figsize=(10, 6))
 fig.subplots_adjust(left=0, bottom=0, right=1, top=1,
                     wspace=0, hspace=0)
 
@@ -16,13 +16,13 @@ plt.imshow(img)
 
 # 解析 XML
 xmldoc = minidom.parse('./test_images/' + img_date + '.xml')
-itemlist = xmldoc.getElementsByTagName('space')
+spacelist = xmldoc.getElementsByTagName('space')
 
-print(len(itemlist))
+print(len(spacelist))
 
-for s in itemlist:
-    # print(s.attributes['id'].value)
-    points = s.getElementsByTagName("point")
+for space in spacelist:
+    # print(space.attributes['id'].value)
+    points = space.getElementsByTagName("point")
     coordinate = []
 
     for point in points:
