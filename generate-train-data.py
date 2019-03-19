@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from PIL import Image, ImageDraw
 import numpy as np
+import cv2
 from xml.dom import minidom
 
 img_date = '2012-10-12_06_27_31'
@@ -14,13 +15,10 @@ print(len(spacelist))
 
 for space in spacelist:
     # read image as RGB and add alpha (transparency)
-    im = Image.open('./test_images/' + img_date + '.jpg').convert("RGBA")
+    img = cv2.imread('./test_images/' + img_date + '.jpg')
 
-    # convert to numpy (for convenience)
-    imArray = np.asarray(im)
+    points = space.getElementsByTagName('point')
 
-    points = space.getElementsByTagName("point")
-    
     coordinate = []
 
     for point in points:
@@ -28,22 +26,27 @@ for space in spacelist:
         # 停车位 x&y 坐标
         x = point.attributes['x'].value
         y = point.attributes['y'].value
-        coordinate.append((int(x), int(y)))
+        coordinate.append([int(x), int(y)])
 
-    # create mask
-    maskIm = Image.new('L', (imArray.shape[1], imArray.shape[0]), 0)
-    ImageDraw.Draw(maskIm).polygon(coordinate, outline=1, fill=1)
-    mask = np.array(maskIm)
+    poly = np.array(coordinate)
 
-    # assemble new image (uint8: 0-255)
-    newImArray = np.empty(imArray.shape,dtype='uint8')
+    # (1) Crop the bounding rect
+    rect = cv2.boundingRect(poly)
+    x, y, w, h = rect
+    croped = img[y:y+h, x:x+w].copy()
 
-    # colors (three first columns, RGB)
-    newImArray[:,:,:3] = imArray[:,:,:3]
+    # (2) make mask
+    poly = poly - poly.min(axis=0)
 
-    # transparency (4th column)
-    newImArray[:,:,3] = mask*255
+    mask = np.zeros(croped.shape[:2], np.uint8)
+    cv2.drawContours(mask, [poly], -1, (255, 255, 255), -1, cv2.LINE_AA)
 
-    # back to Image from numpy
-    newIm = Image.fromarray(newImArray, "RGBA")
-    newIm.save('./train_data/temp/out' + space.attributes['id'].value + '.png')
+    # (3) do bit-op
+    roi = cv2.bitwise_and(croped, croped, mask=mask)
+
+    # (4) add the white background
+    bg = np.ones_like(croped, np.uint8)*255
+    cv2.bitwise_not(bg, bg, mask=mask)
+    output = bg + roi
+
+    cv2.imwrite('./train_data/temp/out' + space.attributes['id'].value + '.png', output)

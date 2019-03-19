@@ -22,7 +22,7 @@ print(len(spacelist))
 
 for space in spacelist:
     # print(space.attributes['id'].value)
-    points = space.getElementsByTagName("point")
+    points = space.getElementsByTagName('point')
     coordinate = []
 
     for point in points:
