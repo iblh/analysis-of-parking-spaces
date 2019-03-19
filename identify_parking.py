@@ -30,9 +30,11 @@ test_images = [plt.imread(path) for path in glob.glob('test_images/*.jpg')]
 
 # show_images(test_images, '1. test_images')
 
+### 颜色选择和边缘检测
 ### Color Selection and Edge Detection
 
-# image is expected be in RGB color space# image 
+# RGB 颜色空间中的预计图像 
+# image is expected be in RGB color space
 def select_rgb_white_yellow(image): 
     # white color mask
     lower = np.uint8([120, 120, 120])
@@ -64,6 +66,7 @@ edge_images = list(map(lambda image: detect_edges(image), gray_images))
 
 # show_images(edge_images, '4. edge_images')
 
+### 确定 ROI
 ### Identify area of interest
 
 def filter_region(image, vertices):
@@ -97,12 +100,14 @@ def select_region(image):
     return filter_region(image, vertices)
 
 
+# 仅显示 ROI 的图像
 # images showing the region of interest only
 roi_images = list(map(select_region, edge_images))
 # roi_images = list(map(select_region, test_images))
 
 show_images(roi_images, '5. roi_images')
 
+### 霍夫线变换
 ### Hough line transform
 
 def hough_lines(image):
@@ -152,11 +157,14 @@ for image, lines in zip(test_images, list_of_lines):
     
 show_images(line_images, '6. line_images')
 
+### 确定矩形停车块
 ### Identify rectangular blocks of parking
 
 def identify_blocks(image, lines, make_copy=True):
     if make_copy:
         new_image = np.copy(image)
+
+    #Step 1: 创建一个干净的线条列表
     #Step 1: Create a clean list of lines
     cleaned = []
     for line in lines:
@@ -164,11 +172,13 @@ def identify_blocks(image, lines, make_copy=True):
             if abs(x2 - x1) <= 8 and abs(y2 - y1) >= 10:
                 cleaned.append((x1,y1,x2,y2))
     
+    #Step 2: 按 x1 位置清理排序
     #Step 2: Sort cleaned by x1 position
     import operator
     list1 = sorted(cleaned, key=operator.itemgetter(0, 1))
     print(list1)
     
+    #Step 3: 找到 x1 的聚类在一起 -  clust_dist 分开
     #Step 3: Find clusters of x1 close together - clust_dist apart
     clusters = {}
     dIndex = 0
@@ -196,7 +206,7 @@ def identify_blocks(image, lines, make_copy=True):
         # else:
         #     dIndex += 1
         #     clus_flag = 0
-###################################
+        ###################################
         # if distance <= clus_dist:
         #     if not dIndex in clusters.keys(): clusters[dIndex] = []
         #     clusters[dIndex].append(list1[i])
@@ -204,6 +214,7 @@ def identify_blocks(image, lines, make_copy=True):
         # else:
         #     dIndex += 1
     
+    #Step 4: 识别此群集周围的矩形坐标
     #Step 4: Identify coordinates of rectangle around this cluster
     rects = {}
     i = 0
@@ -230,6 +241,8 @@ def identify_blocks(image, lines, make_copy=True):
             i += 1
     
     print("Num Parking Lanes: ", len(rects))
+
+    #Step 5: 在图像上绘制矩形
     #Step 5: Draw the rectangles on the image
     buff = 7
     for key in rects:
@@ -250,6 +263,7 @@ for image, lines in zip(test_images, list_of_lines):
 show_images(rect_images, '7. rect_images')
 
 
+### 确定每个地点并计算停车位数量
 ### Identify each spot and count num of parking spaces
 
 def draw_parking(image, rects, make_copy = True, color=[255, 0, 0], thickness=2, save = True):
