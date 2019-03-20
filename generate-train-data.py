@@ -2,19 +2,29 @@ import os
 import cv2
 import numpy as np
 from xml.dom import minidom
+from tqdm import tqdm
 
 rootdir = './src_img/PUCPR'
 
+pbar = tqdm(total=100)
+files_count = sum([len(files) for r, d, files in os.walk(rootdir)])
+
 for dirpath, dirnames, files in os.walk(rootdir):
     files = [file for file in files if file.endswith(('.jpg'))]
+    # print('111')
     for file in files:
+        # print(img_date)
         img_date = file.split('.')[0]
         full_path = os.path.join(dirpath, file).replace('.jpg', '')
-        print(img_date)
+        exists = os.path.isfile(full_path + '.xml')
 
-        # 解析 XML
-        xmldoc = minidom.parse(full_path + '.xml')
-        spacelist = xmldoc.getElementsByTagName('space')
+        if exists:
+            # 解析 XML
+            xmldoc = minidom.parse(full_path + '.xml')
+            spacelist = xmldoc.getElementsByTagName('space')
+        else:
+            pbar.update(100/files_count*2)
+            continue
 
         for space in spacelist:
             if space.hasAttribute('occupied'):
@@ -59,3 +69,7 @@ for dirpath, dirnames, files in os.walk(rootdir):
                 else:
                     cv2.imwrite('./train_data/train/empty/pupcr-' +
                                 space.attributes['id'].value + '-' + img_date + '.png', output)
+
+        pbar.update(100/files_count*2)
+
+pbar.close()
