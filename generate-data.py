@@ -7,8 +7,8 @@ from xml.dom import minidom
 
 # 初始化
 counter = 0
-target = 2
-pbar = tqdm(total=100)
+target = 100
+pbar = tqdm(total=target)
 rootdir = './src_img/PUCPR'
 hstdir = './train_data/train/history.json'
 # files_count = sum([len(files) for r, d, files in os.walk(rootdir)])
@@ -36,6 +36,7 @@ for dirpath, dirnames, files in os.walk(rootdir):
         xml_exists = os.path.isfile(full_path + '.xml')
 
         if img_date in str(hst_data['files']):
+            counter += 1
             continue
 
         if xml_exists:
@@ -43,7 +44,7 @@ for dirpath, dirnames, files in os.walk(rootdir):
             xmldoc = minidom.parse(full_path + '.xml')
             spacelist = xmldoc.getElementsByTagName('space')
         else:
-            pbar.update(100/target)
+            pbar.update(1)
             continue
 
         for space in spacelist:
@@ -96,7 +97,7 @@ for dirpath, dirnames, files in os.walk(rootdir):
         hst_data['files'].append({
             img_date: 1
         })
-        pbar.update(100/target)
+        pbar.update(1)
         counter += 1
 
 pbar.close()
