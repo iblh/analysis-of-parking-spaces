@@ -1,8 +1,8 @@
-import matplotlib.pyplot as plt
 import matplotlib.patches as patches
-from PIL import Image
+import matplotlib.pyplot as plt
 import numpy as np
 from xml.dom import minidom
+from PIL import Image
 
 img_date = '2012-09-11_15_16_58'
 

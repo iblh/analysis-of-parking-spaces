@@ -1,10 +1,10 @@
-import os
-import cv2
-import json
-import random
-import numpy as np
-from tqdm import tqdm
 from xml.dom import minidom
+from tqdm import tqdm
+import numpy as np
+import random
+import json
+import cv2
+import os
 
 # 初始化
 target = 100
