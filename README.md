@@ -10,6 +10,7 @@
 - [CUDA](https://developer.nvidia.com/cuda-90-download-archive) (9.0)
 - [cuDNN](https://developer.nvidia.com/rdp/cudnn-download) (≥7.4.1 for CUDA 9.0)
 - [Anaconda](https://www.anaconda.com/distribution/)
+- [Parking Lot Database](http://web.inf.ufpr.br/vri/databases/parking-lot-database/)
 
 ## Command
 

@@ -1,4 +1,5 @@
 from xml.dom import minidom
+from imutils import paths
 from tqdm import tqdm
 import numpy as np
 import random
@@ -8,11 +9,14 @@ import os
 
 # 初始化
 target = 100
+hst_len = 0
+counter = 0
 img_list = []
 rd_seed = 628
+pl_id = 'pucpr'
 pbar = tqdm(total=target)
-rootdir = './src_img/PUCPR'
-hstdir = './train_data/train/history.json'
+rootdir = './src_img/' + pl_id.upper()
+hstdir = './train_data/train/' + pl_id + '.json'
 # files_count = sum([len(files) for r, d, files in os.walk(rootdir)])
 
 # 初始 history.json
@@ -20,26 +24,26 @@ hst_exists = os.path.isfile(hstdir)
 if hst_exists:
     with open(hstdir) as json_file:
         hst_data = json.load(json_file)
+        hst_len = len(hst_data['files'])
 else:
     hst_data = {}
     hst_data['files'] = []
 
-# 遍历文件夹，提取图片名
-for dirpath, dirnames, files in os.walk(rootdir):
-    # 保留 .jpg 文件
-    img_files = [file for file in files if file.endswith(('.jpg'))]
-    img_list += img_files
 
-# 随机图片 list
+# 加载图片，提取图片路径
+img_paths = sorted(list(paths.list_images(rootdir)))
+
+# 伪随机图片路径 list
 random.seed(rd_seed)
-random.shuffle(img_list)
+random.shuffle(img_paths)
 
-for i, file in enumerate(img_list):
-    # print(img_date)
-    if i == target:
+# 循环图片路径
+for img_path in img_paths:
+    if counter == target:
         break
 
     # 初始化文件相关变量
+    file = img_path.split(os.path.sep)[-1]
     img_date = file.split('.')[0]
     dir_name = file.split('_')[0]
     full_path = os.path.join(rootdir + '/' + dir_name,
@@ -47,16 +51,18 @@ for i, file in enumerate(img_list):
     xml_exists = os.path.isfile(full_path + '.xml')
 
     if img_date in str(hst_data['files']):
-        continue
-
-    if xml_exists:
-        # 解析 XML
-        xmldoc = minidom.parse(full_path + '.xml')
-        spacelist = xmldoc.getElementsByTagName('space')
-    else:
+        counter += 1
         pbar.update(1)
         continue
 
+    # 解析 XML
+    if xml_exists:
+        xmldoc = minidom.parse(full_path + '.xml')
+        spacelist = xmldoc.getElementsByTagName('space')
+    else:
+        continue
+
+    # 循环处理单个停车位
     for space in spacelist:
         if space.hasAttribute('occupied'):
             # print(space.attributes['id'].value)
@@ -97,18 +103,21 @@ for i, file in enumerate(img_list):
 
         # 保存图片
         if status:
-            cv2.imwrite('./train_data/train/occupied/pupcr-' +
+            cv2.imwrite('./train_data/train/occupied/' + pl_id + '-' +
                         space.attributes['id'].value + '-' + img_date + '.png', output)
         else:
-            cv2.imwrite('./train_data/train/empty/pupcr-' +
+            cv2.imwrite('./train_data/train/empty/' + pl_id + '-' +
                         space.attributes['id'].value + '-' + img_date + '.png', output)
 
     # 当前文件处理完成
     hst_data['files'].append({
         img_date: 1
     })
+    counter += 1
     pbar.update(1)
 
 pbar.close()
-with open(hstdir, 'w') as outfile:
-    json.dump(hst_data, outfile)
+
+if target > hst_len:
+    with open(hstdir, 'w') as outfile:
+        json.dump(hst_data, outfile)
