@@ -1,10 +1,12 @@
 import matplotlib.patches as patches
 import matplotlib.pyplot as plt
 import numpy as np
+import re
 from xml.dom import minidom
 from PIL import Image
 
 img_date = '2012-09-11_15_16_58'
+# img_date = '2012-12-28_11_20_07'
 
 img = np.array(Image.open(
     './test_images/' + img_date + '.jpg'), dtype=np.uint8)
@@ -19,15 +21,18 @@ plt.imshow(img)
 xmldoc = minidom.parse('./test_images/' + img_date + '.xml')
 spacelist = xmldoc.getElementsByTagName('space')
 
-print(len(spacelist))
+# print(len(spacelist))
 
 for space in spacelist:
     # print(space.attributes['id'].value)
-    points = space.getElementsByTagName('point')
+    if len(space.getElementsByTagName('point')):
+        points = space.getElementsByTagName('point')
+    else:
+        points = space.getElementsByTagName('Point')
+
     coordinate = []
 
     for point in points:
-
         # 停车位 x&y 坐标
         x = point.attributes['x'].value
         y = point.attributes['y'].value

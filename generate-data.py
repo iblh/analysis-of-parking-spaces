@@ -8,15 +8,17 @@ import cv2
 import os
 
 # 初始化
-target = 100
+target = 500
 hst_len = 0
 counter = 0
 img_list = []
 rd_seed = 628
 pl_id = 'pucpr'
+# pl_id = 'ufpr04'
+# pl_id = 'ufpr05'
 pbar = tqdm(total=target)
 rootdir = './src_img/' + pl_id.upper()
-hstdir = './train_data/train/' + pl_id + '.json'
+hstdir = './train_data/train/' + pl_id + '/history.json'
 # files_count = sum([len(files) for r, d, files in os.walk(rootdir)])
 
 # 初始 history.json
@@ -46,8 +48,7 @@ for img_path in img_paths:
     file = img_path.split(os.path.sep)[-1]
     img_date = file.split('.')[0]
     dir_name = file.split('_')[0]
-    full_path = os.path.join(rootdir + '/' + dir_name,
-                             file).replace('.jpg', '')
+    full_path = img_path.replace('.jpg', '')
     xml_exists = os.path.isfile(full_path + '.xml')
 
     if img_date in str(hst_data['files']):
@@ -60,16 +61,20 @@ for img_path in img_paths:
         xmldoc = minidom.parse(full_path + '.xml')
         spacelist = xmldoc.getElementsByTagName('space')
     else:
+        print('ERROR: No XML File')
         continue
 
     # 循环处理单个停车位
     for space in spacelist:
+        # print(img_date + ' ' + space.attributes['id'].value)
         if space.hasAttribute('occupied'):
-            # print(space.attributes['id'].value)
             img = cv2.imread(full_path + '.jpg')
             status = int(space.attributes['occupied'].value)
-            points = space.getElementsByTagName('point')
             coordinate = []
+            if len(space.getElementsByTagName('point')):
+                points = space.getElementsByTagName('point')
+            else:
+                points = space.getElementsByTagName('Point')
         else:
             continue
 
@@ -103,10 +108,10 @@ for img_path in img_paths:
 
         # 保存图片
         if status:
-            cv2.imwrite('./train_data/train/occupied/' + pl_id + '-' +
+            cv2.imwrite('./train_data/train/' + pl_id + '/occupied/' +
                         space.attributes['id'].value + '-' + img_date + '.png', output)
         else:
-            cv2.imwrite('./train_data/train/empty/' + pl_id + '-' +
+            cv2.imwrite('./train_data/train/' + pl_id + '/empty/' +
                         space.attributes['id'].value + '-' + img_date + '.png', output)
 
     # 当前文件处理完成

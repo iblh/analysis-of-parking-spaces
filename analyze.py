@@ -7,12 +7,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 import cv2
 
-img_date = '2012-09-11_15_16_58'
-model_path = './train_data/v1.model'
+# img_date = '2012-09-11_15_16_58'
+img_date = '2012-12-28_11_20_07'
+model_path = './train_data/pucpr-500-05.model'
 
 img = np.array(Image.open(
     './test_images/' + img_date + '.jpg'), dtype=np.uint8)
-fig, ax = plt.subplots(1, figsize=(12, 7.2))
+fig, ax = plt.subplots(1, figsize=(15, 9))
 fig.subplots_adjust(left=0, bottom=0, right=1, top=1,
                     wspace=0, hspace=0)
 
@@ -30,7 +31,10 @@ model = load_model(model_path)
 
 for space in spacelist:
     # print(space.attributes['id'].value)
-    points = space.getElementsByTagName('point')
+    if len(space.getElementsByTagName('point')):
+        points = space.getElementsByTagName('point')
+    else:
+        points = space.getElementsByTagName('Point')
     coordinate = []
     x = y = 0
 
@@ -78,8 +82,9 @@ for space in spacelist:
     proba = occupied if occupied > empty else empty
     proba = '{:.2f}'.format(proba)
 
-    plt.text(x + 10, y + 10, proba, fontsize=8,
-             bbox={'facecolor': 'white', 'alpha': 0.3, 'pad': 2})
+    # 在图片停车位上添加概率标签
+    # plt.text(x + 10, y + 10, proba, fontsize=8,
+    #          bbox={'facecolor': 'white', 'alpha': 0.3, 'pad': 2})
 
     # 设置停车位边缘，添加 patch 到 axes
     if status:
