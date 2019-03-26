@@ -15,8 +15,12 @@
 
 ```bash
 # train network
-python train-network.py -d ./train_data/train -m v1.model
+python train-network.py -d train_data/train/ -m train_data/v1.model
 
 # test network
-python test-network.py -m v1.model -i train_data/test/occupied/pupcr-3-2012-09-20_11_24_28.png
+python test-network.py -m train_data/v1.model -d train_data/test/
 ```
+
+## References
+
+[Python 风格指南](https://zh-google-styleguide.readthedocs.io/en/latest/google-python-styleguide/contents/)

@@ -6,11 +6,11 @@ matplotlib.use("Agg")
  
 # import the necessary packages
 from keras.preprocessing.image import ImageDataGenerator
-from keras.optimizers import Adam
 from sklearn.model_selection import train_test_split
 from keras.preprocessing.image import img_to_array
 from keras.utils import to_categorical
 from pyimagesearch.lenet import LeNet
+from keras.optimizers import Adam
 from imutils import paths
 import matplotlib.pyplot as plt
 import numpy as np
@@ -21,7 +21,7 @@ import os
 
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
-ap.add_argument("-d", "--dataset", required=True, default="./train_data/train",
+ap.add_argument("-d", "--dataset", required=True,
 	help="path to input dataset")
 ap.add_argument("-m", "--model", required=True,
 	help="path to output model")
