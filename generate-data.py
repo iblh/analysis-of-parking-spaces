@@ -8,7 +8,7 @@ import cv2
 import os
 
 # 初始化
-target = 500
+target = 1000
 hst_len = 0
 counter = 0
 img_list = []
@@ -104,15 +104,15 @@ for img_path in img_paths:
         # 添加白色背景
         bg = np.ones_like(roi, np.uint8)*255
         cv2.bitwise_not(bg, bg, mask=mask)
-        output = bg + dst
+        dst = bg + dst
 
         # 保存图片
         if status:
             cv2.imwrite('./train_data/train/' + pl_id + '/occupied/' +
-                        space.attributes['id'].value + '-' + img_date + '.png', output)
+                        space.attributes['id'].value + '-' + img_date + '.png', dst)
         else:
             cv2.imwrite('./train_data/train/' + pl_id + '/empty/' +
-                        space.attributes['id'].value + '-' + img_date + '.png', output)
+                        space.attributes['id'].value + '-' + img_date + '.png', dst)
 
     # 当前文件处理完成
     hst_data['files'].append({

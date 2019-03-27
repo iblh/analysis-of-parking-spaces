@@ -7,9 +7,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import cv2
 
-# img_date = '2012-09-11_15_16_58'
-img_date = '2012-12-28_11_20_07'
-model_path = './train_data/pucpr-500-05.model'
+img_date = '2012-09-11_15_16_58'
+# img_date = '2012-12-20_20_55_16'
+model_path = './train_data/pucpr-1k-b.model'
 
 img = np.array(Image.open(
     './test_images/' + img_date + '.jpg'), dtype=np.uint8)
@@ -66,10 +66,10 @@ for space in spacelist:
     # 添加白色背景
     bg = np.ones_like(roi, np.uint8)*255
     cv2.bitwise_not(bg, bg, mask=mask)
-    image = bg + dst
+    dst = bg + dst
 
     # 将图片进行预处理用以下一步识别
-    image = cv2.resize(image, (28, 28))
+    image = cv2.resize(dst, (40, 40))
     image = image.astype("float") / 255.0
     image = img_to_array(image)
     image = np.expand_dims(image, axis=0)

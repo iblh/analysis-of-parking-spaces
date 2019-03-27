@@ -9,7 +9,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from imutils import paths
 from keras.optimizers import Adam
-from pyimagesearch.lenet import LeNet
+from models.lenet import LeNet
 from keras.utils import to_categorical
 from keras.preprocessing.image import img_to_array
 from sklearn.model_selection import train_test_split
@@ -51,7 +51,7 @@ random.shuffle(imagePaths)
 for imagePath in imagePaths:
     # load the image, pre-process it, and store it in the data list
     image = cv2.imread(imagePath)
-    image = cv2.resize(image, (28, 28))
+    image = cv2.resize(image, (40, 40))
     image = img_to_array(image)
     data.append(image)
 
@@ -68,7 +68,7 @@ labels = np.array(labels)
 # partition the data into training and testing splits using 75% of
 # the data for training and the remaining 25% for testing
 (trainX, testX, trainY, testY) = train_test_split(data,
-                                                  labels, test_size=0.25, random_state=42)
+                                                  labels, test_size=0.2, random_state=42)
 
 # convert the labels from integers to vectors
 trainY = to_categorical(trainY, num_classes=2)
@@ -82,7 +82,7 @@ aug = ImageDataGenerator(rotation_range=30, width_shift_range=0.1,
 
 # initialize the model
 print("[INFO] compiling model...")
-model = LeNet.build(width=28, height=28, depth=3, classes=2)
+model = LeNet.build(width=40, height=40, depth=3, classes=2)
 opt = Adam(lr=INIT_LR, decay=INIT_LR / EPOCHS)
 model.compile(loss="binary_crossentropy", optimizer=opt,
               metrics=["accuracy"])
