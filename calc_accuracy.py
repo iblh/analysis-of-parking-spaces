@@ -3,6 +3,7 @@ from keras.models import load_model
 from xml.dom import minidom
 from imutils import paths
 from tqdm import tqdm
+from PIL import Image
 import matplotlib.patches as patches
 import matplotlib.pyplot as plt
 import numpy as np
@@ -12,7 +13,7 @@ import os
 
 # 初始化
 hits = 0
-target = 1
+target = 100
 ps_conter = 0
 img_counter = 0
 rd_seed = 628
@@ -20,11 +21,11 @@ pl_id = 'pucpr'
 dims = (40, 40, 3)
 pbar = tqdm(total=target)
 rootdir = './src_img/' + pl_id.upper()
-model_path = './train_data/tinyvgg-pucpr-1k-40.model'
+model_path = './train_data/tinyvgg-pucpr-100.model'
 
 # 加载图片，提取图片路径
 img_paths = sorted(list(paths.list_images(rootdir)))
-img_paths = ['./src_img/PUCPR/2012-09-11/2012-09-11_15_16_58.jpg']
+# img_paths = ['./src_img/PUCPR/2012-09-11/2012-09-11_15_16_58.jpg']
 
 # 加载训练完成的 CNN 网络模型
 print("[INFO] loading network...")
@@ -49,16 +50,17 @@ for img_path in img_paths:
 
     # 解析 XML
     if xml_exists:
-        img = cv2.imread(full_path + '.jpg')
+        bgr_img = cv2.imread(full_path + '.jpg')
         xmldoc = minidom.parse(full_path + '.xml')
         spacelist = xmldoc.getElementsByTagName('space')
-        print(full_path)
 
-        fig, ax = plt.subplots(1, figsize=(15, 9))
-        fig.subplots_adjust(left=0, bottom=0, right=1, top=1,
-                            wspace=0, hspace=0)
-        plt.imshow(img)
-        plt.axis('off')
+        # 初始化 plt 图像
+        # rgb_img = np.array(Image.open(full_path + '.jpg'))
+        # fig, ax = plt.subplots(1, figsize=(15, 9))
+        # fig.subplots_adjust(left=0, bottom=0, right=1, top=1,
+        #                     wspace=0, hspace=0)
+        # plt.imshow(rgb_img)
+        # plt.axis('off')
     else:
         print('ERROR: No XML File')
         continue
@@ -89,7 +91,7 @@ for img_path in img_paths:
         # 裁剪边界矩形 roi
         rect = cv2.boundingRect(array_poly)
         x, y, w, h = rect
-        roi = img[y:y+h, x:x+w].copy()
+        roi = bgr_img[y:y+h, x:x+w].copy()
 
         # 生成遮罩图层
         array_poly = array_poly - array_poly.min(axis=0)
@@ -123,21 +125,19 @@ for img_path in img_paths:
         ps_conter += 1
 
         # 设置停车位边缘，添加 patch 到 axes
-        if pd_status:
-            patches_poly = patches.Polygon(
-                np.array(coordinate), fill=False, color='#c40b13', linewidth=1.5)
-        else:
-            patches_poly = patches.Polygon(
-                np.array(coordinate), fill=False, color='#18A309', linewidth=1.5)
+        # if pd_status:
+        #     patches_poly = patches.Polygon(
+        #         np.array(coordinate), fill=False, color='#c40b13', linewidth=1.5)
+        # else:
+        #     patches_poly = patches.Polygon(
+        #         np.array(coordinate), fill=False, color='#18A309', linewidth=1.5)
 
-        ax.add_patch(patches_poly)
+        # ax.add_patch(patches_poly)
 
     img_counter += 1
     pbar.update(1)
-    plt.show()
+    # plt.show()
 
 
 pbar.close()
-print(hits)
-print(ps_conter)
-print(hits/ps_conter)
+print('{}: {:.2f}%'.format('Accuracy', hits / ps_conter * 100))

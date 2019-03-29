@@ -16,11 +16,11 @@
 
 ```bash
 # train network
-python train-network.py -d train_data/train/ -m train_data/v1.model
+python train_network.py -d train_data/train/ -m train_data/v1.model
 
-python train-network.py -d train_data/train/pucpr -m train_data/vgg16-pucpr-1k.model
+python train_network.py -d train_data/train/pucpr -m train_data/tinyvgg-pucpr-100.model
 # test network
-python test-network.py -m train_data/v1.model -d train_data/test/
+python test_segment.py -m train_data/v1.model -d train_data/test/
 ```
 
 ## References
