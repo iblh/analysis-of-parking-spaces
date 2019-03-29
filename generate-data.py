@@ -8,7 +8,7 @@ import cv2
 import os
 
 # 初始化
-target = 1000
+target = 100
 hst_len = 0
 counter = 0
 img_list = []

@@ -1,4 +1,4 @@
-# identify parking spots
+# Analysis of Parking Spaces
 
 ## Hardware requirements
 
@@ -18,6 +18,7 @@
 # train network
 python train-network.py -d train_data/train/ -m train_data/v1.model
 
+python train-network.py -d train_data/train/pucpr -m train_data/vgg16-pucpr-1k.model
 # test network
 python test-network.py -m train_data/v1.model -d train_data/test/
 ```
