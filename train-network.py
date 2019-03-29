@@ -1,24 +1,25 @@
 #!/usr/bin/env python
 
 # set the matplotlib backend so figures can be saved in the background
+import os
+import cv2
+import random
+import argparse
+import numpy as np
+import matplotlib.pyplot as plt
+from imutils import paths
+from models.lenet import LeNet
+from models.vgg16 import VGG_16
+from models.tinyvgg import TinyVGG
+from keras.optimizers import Adam
+from keras.utils import to_categorical
+from keras.preprocessing.image import img_to_array
+from sklearn.model_selection import train_test_split
+from keras.preprocessing.image import ImageDataGenerator
 import matplotlib
 matplotlib.use("Agg")
 
 # import the necessary packages
-from keras.preprocessing.image import ImageDataGenerator
-from sklearn.model_selection import train_test_split
-from keras.preprocessing.image import img_to_array
-from keras.utils import to_categorical
-from keras.optimizers import Adam
-from models.vgg16 import VGG_16
-from models.lenet import LeNet
-from imutils import paths
-import matplotlib.pyplot as plt
-import numpy as np
-import argparse
-import random
-import cv2
-import os
 
 
 # construct the argument parse and parse the arguments
@@ -37,6 +38,8 @@ args = vars(ap.parse_args())
 EPOCHS = 5
 INIT_LR = 1e-3
 BS = 32
+# Height Width Depth
+IMAGE_DIMS = (40, 40, 3)
 
 # initialize the data and labels
 print("[INFO] loading images...")
@@ -53,7 +56,7 @@ random.shuffle(imagePaths)
 for imagePath in imagePaths:
     # load the image, pre-process it, and store it in the data list
     image = cv2.imread(imagePath)
-    image = cv2.resize(image, (40, 40))
+    image = cv2.resize(image, (IMAGE_DIMS[1], IMAGE_DIMS[0]))
     image = img_to_array(image)
     data.append(image)
 
@@ -67,8 +70,8 @@ for imagePath in imagePaths:
 data = np.array(data, dtype="float") / 255.0
 labels = np.array(labels)
 
-# partition the data into training and testing splits using 75% of
-# the data for training and the remaining 25% for testing
+# partition the data into training and testing splits using 80% of
+# the data for training and the remaining 20% for testing
 (trainX, testX, trainY, testY) = train_test_split(data,
                                                   labels, test_size=0.2, random_state=42)
 
@@ -84,17 +87,18 @@ aug = ImageDataGenerator(rotation_range=30, width_shift_range=0.1,
 
 # 初始化 model
 print("[INFO] compiling model...")
-model = VGG_16.build(width=40, height=40, depth=3, classes=2)
+model = TinyVGG.build(width=IMAGE_DIMS[1], height=IMAGE_DIMS[0], depth=IMAGE_DIMS[2], classes=2)
 opt = Adam(lr=INIT_LR, decay=INIT_LR / EPOCHS)
 model.compile(loss="binary_crossentropy", optimizer=opt,
               metrics=["accuracy"])
 
 # train the network
 print("[INFO] training network...")
-H = model.fit_generator(aug.flow(trainX, trainY, batch_size=BS),
-                        validation_data=(testX, testY), steps_per_epoch=len(
-                            trainX) // BS,
-                        epochs=EPOCHS, verbose=1)
+H = model.fit_generator(
+    aug.flow(trainX, trainY, batch_size=BS),
+    validation_data=(testX, testY),
+    steps_per_epoch=len(trainX) // BS,
+    epochs=EPOCHS, verbose=1)
 
 # save the model to disk
 print("[INFO] serializing network...")
