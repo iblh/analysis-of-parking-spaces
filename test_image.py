@@ -12,8 +12,8 @@ dims = (40, 40, 3)
 img_date = '2012-09-11_15_16_58'
 # img_date = '2012-12-20_20_55_16'
 model_path = './train_data/tinyvgg-pucpr-1k-40.model'
-bgr_img = cv2.imread('./test_images/' + img_date + '.jpg')
-rgb_img = np.array(Image.open('./test_images/' + img_date + '.jpg'))
+bgr_img = cv2.imread('./train_data/test_img/' + img_date + '.jpg')
+rgb_img = np.array(Image.open('./train_data/test_img/' + img_date + '.jpg'))
 fig, ax = plt.subplots(1, figsize=(15, 9))
 fig.subplots_adjust(left=0, bottom=0, right=1, top=1,
                     wspace=0, hspace=0)
@@ -21,7 +21,7 @@ plt.axis('off')
 plt.imshow(rgb_img)
 
 # 解析 XML
-xmldoc = minidom.parse('./test_images/' + img_date + '.xml')
+xmldoc = minidom.parse('./train_data/test_img/' + img_date + '.xml')
 spacelist = xmldoc.getElementsByTagName('space')
 
 

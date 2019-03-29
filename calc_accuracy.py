@@ -12,16 +12,18 @@ import cv2
 import os
 
 # 初始化
-hits = 0
-target = 100
+target = 200
+hit_num = 0
 ps_conter = 0
 img_counter = 0
 rd_seed = 628
 pl_id = 'pucpr'
+# pl_id = 'ufpr04'
+# pl_id = 'ufpr05'
 dims = (40, 40, 3)
 pbar = tqdm(total=target)
 rootdir = './src_img/' + pl_id.upper()
-model_path = './train_data/tinyvgg-pucpr-100.model'
+model_path = './train_data/models/tinyvgg-200.model'
 
 # 加载图片，提取图片路径
 img_paths = sorted(list(paths.list_images(rootdir)))
@@ -120,7 +122,7 @@ for img_path in img_paths:
         # 创建状态和概率 name
         pd_status = 1 if occupied > empty else 0
         if status == pd_status:
-            hits += 1
+            hit_num += 1
 
         ps_conter += 1
 
@@ -140,4 +142,4 @@ for img_path in img_paths:
 
 
 pbar.close()
-print('{}: {:.2f}%'.format('Accuracy', hits / ps_conter * 100))
+print('{}: {:.2f}%'.format('Accuracy', hit_num / ps_conter * 100))
