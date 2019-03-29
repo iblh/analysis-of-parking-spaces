@@ -58,6 +58,7 @@ for img_path in img_paths:
 
     # 解析 XML
     if xml_exists:
+        img = cv2.imread(full_path + '.jpg')
         xmldoc = minidom.parse(full_path + '.xml')
         spacelist = xmldoc.getElementsByTagName('space')
     else:
@@ -68,9 +69,9 @@ for img_path in img_paths:
     for space in spacelist:
         # print(img_date + ' ' + space.attributes['id'].value)
         if space.hasAttribute('occupied'):
-            img = cv2.imread(full_path + '.jpg')
             status = int(space.attributes['occupied'].value)
             coordinate = []
+
             if len(space.getElementsByTagName('point')):
                 points = space.getElementsByTagName('point')
             else:

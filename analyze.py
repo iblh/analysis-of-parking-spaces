@@ -7,12 +7,15 @@ import matplotlib.pyplot as plt
 import numpy as np
 import cv2
 
+dims = (40, 40, 3)
 img_date = '2012-09-11_15_16_58'
 # img_date = '2012-12-20_20_55_16'
-model_path = './train_data/pucpr-1k-b.model'
+model_path = './train_data/tinyvgg-pucpr-1k-40.model'
 
-img = np.array(Image.open(
-    './test_images/' + img_date + '.jpg'), dtype=np.uint8)
+# img = np.array(Image.open(
+#     './test_images/' + img_date + '.jpg'), dtype=np.uint8)
+img = cv2.imread('./test_images/' + img_date + '.jpg')
+
 fig, ax = plt.subplots(1, figsize=(15, 9))
 fig.subplots_adjust(left=0, bottom=0, right=1, top=1,
                     wspace=0, hspace=0)
@@ -69,7 +72,7 @@ for space in spacelist:
     dst = bg + dst
 
     # 将图片进行预处理用以下一步识别
-    image = cv2.resize(dst, (40, 40))
+    image = cv2.resize(dst, (dims[1], dims[0]))
     image = image.astype("float") / 255.0
     image = img_to_array(image)
     image = np.expand_dims(image, axis=0)
