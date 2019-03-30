@@ -55,12 +55,13 @@ python test_segment.py -m train_data/v1.model -d train_data/test/
 
 | Parking lot | Network | Images | Epochs | Acc (PUCPR) | Acc (UFPR04) | Acc (UFPR05) |
 | ----------- | ------- | ------ | ------ | ----------- | ------------ | ------------ |
+| PUCPR       | AlexNet | 200    | 5      | 99.73%      | 97.75%       | 81.78%       |
 | PUCPR       | TinyVGG | 100    | 5      | 89.72%      | 49.41%       | 88.92%       |
-| PUCPR       | TinyVGG | 200    | 5      | 99.92%      | 98.80%       | 90.10%       |
+| PUCPR       | TinyVGG | 200    | 5      | 99.95%      | 99.02%       | 95.77%       |
 | PUCPR       | TinyVGG | 1000   | 5      | 99.99%      | 98.17%       | 96.25%       |
 | PUCPR       | LeNet   | 200    | 5      | 99.84%      | 97.56%       | 84.78%       |
 | PUCPR       | VGG16   | 200    | 5      | 99.77%      | 96.79%       | 92.13%       |
-| ALL         | TinyVGG | 200\*3 | 5      | 99.63%      | 98.80%       | 99.57%       |
+| ALL         | TinyVGG | 200\*3 | 5      | 99.75%      | 98.80%       | 99.57%       |
 | ALL         | LeNet   | 200\*3 | 5      | 99.58%      | 97.27%       | 98.83%       |
 | ALL         | VGG16   | 200\*3 | 5      | 93.20%      | 77.69%       | 98.87%       |
 | ALL         | VGG16   | 200\*3 | 10     | 98.08%      | 92.81%       | 96.76%       |
@@ -103,7 +104,7 @@ Epoch 5/5
 ```bash
 (Tensorflow-3.6) C:\Users\AWAKE\Desktop\GP\ips>python calc_accuracy.py
 Using TensorFlow backend.
-  0%|                                                                                                                    | 0/20000 [00:00<?, ?it/s][INFO] loading network...
+[INFO] loading network...
 2019-03-30 22:28:31.908052: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1432] Found device 0 with properties:
 name: GeForce GTX 1060 6GB major: 6 minor: 1 memoryClockRate(GHz): 1.7845
 pciBusID: 0000:01:00.0
