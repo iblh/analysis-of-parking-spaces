@@ -29,9 +29,12 @@ pl_id = 'pucpr'
 # pl_id = 'ufpr04'
 # pl_id = 'ufpr05'
 dims = (40, 40, 3)
-pbar = tqdm(total=target)
 rootdir = './src_img/' + pl_id.upper()
-model_path = './train_data/models/lenet-pucpr-200.model'
+model_path = './train_data/models/lenet-200.model'
+if os.name == 'nt':
+    pbar = tqdm(total=target, ascii=True)
+else:
+    pbar = tqdm(total=target)
 
 # 加载图片，提取图片路径
 img_paths = sorted(list(paths.list_images(rootdir)))

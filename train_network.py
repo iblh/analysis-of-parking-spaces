@@ -8,8 +8,9 @@ import argparse
 import numpy as np
 import matplotlib.pyplot as plt
 from imutils import paths
-from models.lenet import LeNet
-from models.vgg16 import VGG_16
+from network.lenet import LeNet
+from network.vgg16 import VGG_16
+from network.tinyvgg import TinyVGG
 from keras.optimizers import Adam
 from keras.utils import to_categorical
 from keras.preprocessing.image import img_to_array
