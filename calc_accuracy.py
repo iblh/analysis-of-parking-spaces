@@ -7,15 +7,23 @@ from PIL import Image
 import matplotlib.patches as patches
 import matplotlib.pyplot as plt
 import numpy as np
+import argparse
 import random
 import cv2
 import os
 
+# 构造参数处理
+# ap = argparse.ArgumentParser()
+# ap.add_argument("-m", "--model", required=True,
+#                 help="path to model")
+# ap.add_argument("-p", "--plid", required=True,
+#                 help="parking lot id")
+# args = vars(ap.parse_args())
+
 # 初始化
-target = 200
+target = 20000
+counter = 0
 hit_num = 0
-ps_conter = 0
-img_counter = 0
 rd_seed = 628
 pl_id = 'pucpr'
 # pl_id = 'ufpr04'
@@ -23,7 +31,7 @@ pl_id = 'pucpr'
 dims = (40, 40, 3)
 pbar = tqdm(total=target)
 rootdir = './src_img/' + pl_id.upper()
-model_path = './train_data/models/vgg16-200.model'
+model_path = './train_data/models/lenet-pucpr-200.model'
 
 # 加载图片，提取图片路径
 img_paths = sorted(list(paths.list_images(rootdir)))
@@ -40,10 +48,8 @@ img_paths.reverse()
 
 # 循环图片路径
 for img_path in img_paths:
-    if img_counter == target:
-        break
-
     # 初始化文件相关变量
+    breaking = False
     file = img_path.split(os.path.sep)[-1]
     img_date = file.split('.')[0]
     dir_name = file.split('_')[0]
@@ -68,6 +74,10 @@ for img_path in img_paths:
         continue
 
     for space in spacelist:
+        if counter == target:
+            breaking = True
+            break
+
         # print(space.attributes['id'].value)
         if space.hasAttribute('occupied'):
             x = y = 0
@@ -124,7 +134,8 @@ for img_path in img_paths:
         if status == pd_status:
             hit_num += 1
 
-        ps_conter += 1
+        counter += 1
+        pbar.update(1)
 
         # 设置停车位边缘，添加 patch 到 axes
         # if pd_status:
@@ -136,10 +147,10 @@ for img_path in img_paths:
 
         # ax.add_patch(patches_poly)
 
-    img_counter += 1
-    pbar.update(1)
+    if breaking:
+        break
     # plt.show()
 
 
 pbar.close()
-print('{}: {:.2f}%'.format('Accuracy', hit_num / ps_conter * 100))
+print('{}: {:.2f}%'.format('Accuracy', hit_num / counter * 100))

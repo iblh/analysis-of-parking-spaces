@@ -51,17 +51,17 @@ python test_segment.py -m train_data/v1.model -d train_data/test/
 
 ## Accuracy
 
->All accuracy tests are based on 200 images
+> All accuracy tests are based on 20,000 images
 
-| Parking lot |  Network | Images | Epochs | Acc (PUCPR) | Acc (UFPR04) | Acc (UFPR05) |
-| -- | -- | -- | -- | -- | -- | -- |
-| PUCPR | tinyVGG | 100 | 5 | 89.58% | 52.59% | 88.90% |
-| PUCPR | tinyVGG | 200 | 5 | 99.92% | 98.71% | 89.90% |
-| PUCPR | tinyVGG | 1000 | 5 | 99.99% | 98.10% | 95.94% |
-| PUCPR | LeNet | 200 | 5 | 99.84% | 97.14% | 84.74% |
-| PUCPR | VGG16 | 200 | 5 | 99.76% | 96.73% | 91.59% |
-| ALL | tinyVGG | 200*3 | 5 | 99.74% | 98.55% | 99.61% |
-| ALL | VGG16 | 200*3 | 5 | 93.11% | 78.83% | 98.71% |
+| Parking lot | Network | Images | Epochs | Acc (PUCPR) | Acc (UFPR04) | Acc (UFPR05) |
+| ----------- | ------- | ------ | ------ | ----------- | ------------ | ------------ |
+| PUCPR       | tinyVGG | 100    | 5      | 89.72%      | 49.41%       | 88.92%       |
+| PUCPR       | tinyVGG | 200    | 5      | 99.92%      | 98.80%       | 90.10%       |
+| PUCPR       | tinyVGG | 1000   | 5      | 99.99%      | 98.17%       | 96.25%       |
+| PUCPR       | LeNet   | 200    | 5      | 99.84%      | 97.14%       | 84.74%       |
+| PUCPR       | VGG16   | 200    | 5      | 99.76%      | 96.73%       | 91.59%       |
+| ALL         | tinyVGG | 200\*3 | 5      | 99.74%      | 98.55%       | 99.61%       |
+| ALL         | VGG16   | 200\*3 | 5      | 93.11%      | 78.83%       | 98.71%       |
 
 ## Verbose
 
