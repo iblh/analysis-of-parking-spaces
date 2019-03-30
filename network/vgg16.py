@@ -1,14 +1,14 @@
-from keras.models import Sequential
 from keras.layers.convolutional import Conv2D, MaxPooling2D
 from keras.layers.normalization import BatchNormalization
 from keras.layers.core import Activation
 from keras.layers.core import Flatten
 from keras.layers.core import Dropout
 from keras.layers.core import Dense
+from keras.models import Sequential
 from keras.optimizers import SGD
 from keras import backend as K
-import cv2
 import numpy as np
+import cv2
 
 
 class VGG_16:
@@ -18,7 +18,7 @@ class VGG_16:
         inputShape = (height, width, depth)
         chanDim = -1
 
-        # 如果为 channels first, 调整 input shape 
+        # 如果为 channels first, 调整 input shape
         # 和 channels dimension
         if K.image_data_format() == 'channels_first':
             inputShape = (depth, height, width)
@@ -89,12 +89,15 @@ class VGG_16:
                                strides=(2, 2)))
         model.add(Dropout(0.25))
 
-        # (FC => RELU layers) * 2
+        # Passing it to a dense layer
         model.add(Flatten())
+        # 1st  FC => RELU Layer
         model.add(Dense(4096))
         model.add(Activation("relu"))
         model.add(BatchNormalization())
         model.add(Dropout(0.5))
+
+        # 2nd  FC => RELU Layer
         model.add(Dense(4096))
         model.add(Activation("relu"))
         model.add(BatchNormalization())
@@ -104,4 +107,5 @@ class VGG_16:
         model.add(Dense(classes))
         model.add(Activation("softmax"))
 
+        # return the constructed network architecture
         return model
