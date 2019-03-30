@@ -16,18 +16,17 @@ class LeNet:
 		model = Sequential()
 		inputShape = (height, width, depth)
  
-		# if we are using "channels first", update the input shape
+        # 如果为 channels first, 调整 input shape 
 		if K.image_data_format() == "channels_first":
 			inputShape = (depth, height, width)
 
-
-        # first set of CONV => RELU => POOL layers
+        # Block 1  CONV => RELU => POOL layers
 		model.add(Conv2D(20, (5, 5), padding="same",
 			input_shape=inputShape))
 		model.add(Activation("relu"))
 		model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
 
-        # second set of CONV => RELU => POOL layers
+        # Block 2  CONV => RELU => POOL layers
 		model.add(Conv2D(50, (5, 5), padding="same"))
 		model.add(Activation("relu"))
 		model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))

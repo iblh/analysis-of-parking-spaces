@@ -23,7 +23,7 @@ pl_id = 'pucpr'
 dims = (40, 40, 3)
 pbar = tqdm(total=target)
 rootdir = './src_img/' + pl_id.upper()
-model_path = './train_data/models/tinyvgg-200.model'
+model_path = './train_data/models/vgg16-200.model'
 
 # 加载图片，提取图片路径
 img_paths = sorted(list(paths.list_images(rootdir)))
