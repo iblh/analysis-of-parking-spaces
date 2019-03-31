@@ -103,14 +103,16 @@ model.save(args["model"])
 
 # plot the training loss and accuracy
 plt.style.use("ggplot")
-plt.figure()
+fig, ax = plt.subplots(2, sharex=True)
+fig.suptitle("Training Loss and Accuracy on empty/occupied")
 N = EPOCHS
-plt.plot(np.arange(0, N), H.history["loss"], label="train_loss")
-plt.plot(np.arange(0, N), H.history["val_loss"], label="val_loss")
-plt.plot(np.arange(0, N), H.history["acc"], label="train_acc")
-plt.plot(np.arange(0, N), H.history["val_acc"], label="val_acc")
-plt.title("Training Loss and Accuracy on empty/occupied")
-plt.xlabel("Epoch #")
-plt.ylabel("Loss/Accuracy")
-plt.legend(loc="lower left")
+
+ax[0].plot(np.arange(0, N), H.history["loss"], label="train_loss")
+ax[0].plot(np.arange(0, N), H.history["val_loss"], label="val_loss")
+ax[0].legend(loc="lower left")
+
+ax[1].plot(np.arange(0, N), H.history["acc"], label="train_acc")
+ax[1].plot(np.arange(0, N), H.history["val_acc"], label="val_acc")
+ax[1].legend(loc="lower left")
+
 plt.savefig(args["plot"])
