@@ -6,12 +6,13 @@ from keras.layers.core import Dropout
 from keras.layers.core import Dense
 from keras.models import Sequential
 from keras.optimizers import SGD
+from keras import regularizers
 from keras import backend as K
 import numpy as np
 import cv2
 
 
-class VGG_16:
+class VGG_13:
     @staticmethod
     def build(width, height, depth, classes):
         model = Sequential()
@@ -25,81 +26,63 @@ class VGG_16:
             chanDim = 1
 
         # Block 1  (CONV => RELU) * 2 => POOL
-        model.add(Conv2D(64, (3, 3), padding="same",
+        model.add(Conv2D(16, (3, 3), padding="same",
                          input_shape=inputShape))
+        model.add(Activation("relu"))
+        model.add(BatchNormalization(axis=chanDim))
+        model.add(Conv2D(16, (3, 3), padding="same"))
+        model.add(Activation("relu"))
+        model.add(BatchNormalization(axis=chanDim))
+        model.add(MaxPooling2D(pool_size=(2, 2)))
+        model.add(Dropout(0.25))
+
+        # Block 2  (CONV => RELU) * 2 => POOL
+        model.add(Conv2D(32, (3, 3), padding="same"))
+        model.add(Activation("relu"))
+        model.add(BatchNormalization(axis=chanDim))
+        model.add(Conv2D(32, (3, 3), padding="same"))
+        model.add(Activation("relu"))
+        model.add(BatchNormalization(axis=chanDim))
+        model.add(MaxPooling2D(pool_size=(2, 2)))
+        model.add(Dropout(0.25))
+
+        # Block 3  (CONV => RELU) * 3 => POOL
+        model.add(Conv2D(64, (3, 3), padding="same"))
         model.add(Activation("relu"))
         model.add(BatchNormalization(axis=chanDim))
         model.add(Conv2D(64, (3, 3), padding="same"))
         model.add(Activation("relu"))
         model.add(BatchNormalization(axis=chanDim))
-        model.add(MaxPooling2D(pool_size=(2, 2),
-                               strides=(2, 2)))
-        model.add(Dropout(0.25))
-
-        # Block 2  (CONV => RELU) * 2 => POOL
-        model.add(Conv2D(128, (3, 3), padding="same"))
+        model.add(Conv2D(64, (3, 3), padding="same"))
         model.add(Activation("relu"))
         model.add(BatchNormalization(axis=chanDim))
-        model.add(Conv2D(128, (3, 3), padding="same"))
-        model.add(Activation("relu"))
-        model.add(BatchNormalization(axis=chanDim))
-        model.add(MaxPooling2D(pool_size=(2, 2),
-                               strides=(2, 2)))
-        model.add(Dropout(0.25))
-
-        # Block 3  (CONV => RELU) * 3 => POOL
-        model.add(Conv2D(256, (3, 3), padding="same"))
-        model.add(Activation("relu"))
-        model.add(BatchNormalization(axis=chanDim))
-        model.add(Conv2D(256, (3, 3), padding="same"))
-        model.add(Activation("relu"))
-        model.add(BatchNormalization(axis=chanDim))
-        model.add(Conv2D(256, (3, 3), padding="same"))
-        model.add(Activation("relu"))
-        model.add(BatchNormalization(axis=chanDim))
-        model.add(MaxPooling2D(pool_size=(2, 2),
-                               strides=(2, 2)))
+        model.add(MaxPooling2D(pool_size=(2, 2)))
         model.add(Dropout(0.25))
 
         # Block 4  (CONV => RELU) * 3 => POOL
-        model.add(Conv2D(512, (3, 3), padding="same"))
+        model.add(Conv2D(128, (3, 3), padding="same"))
         model.add(Activation("relu"))
         model.add(BatchNormalization(axis=chanDim))
-        model.add(Conv2D(512, (3, 3), padding="same"))
+        model.add(Conv2D(128, (3, 3), padding="same"))
         model.add(Activation("relu"))
         model.add(BatchNormalization(axis=chanDim))
-        model.add(Conv2D(512, (3, 3), padding="same"))
+        model.add(Conv2D(128, (3, 3), padding="same"))
         model.add(Activation("relu"))
         model.add(BatchNormalization(axis=chanDim))
-        model.add(MaxPooling2D(pool_size=(2, 2),
-                               strides=(2, 2)))
-        model.add(Dropout(0.25))
-
-        # Block 5  (CONV => RELU) * 3 => POOL
-        model.add(Conv2D(512, (3, 3), padding="same"))
-        model.add(Activation("relu"))
-        model.add(BatchNormalization(axis=chanDim))
-        model.add(Conv2D(512, (3, 3), padding="same"))
-        model.add(Activation("relu"))
-        model.add(BatchNormalization(axis=chanDim))
-        model.add(Conv2D(512, (3, 3), padding="same"))
-        model.add(Activation("relu"))
-        model.add(BatchNormalization(axis=chanDim))
-        model.add(MaxPooling2D(pool_size=(2, 2),
-                               strides=(2, 2)))
+        model.add(MaxPooling2D(pool_size=(2, 2)))
         model.add(Dropout(0.25))
 
         # Passing it to a dense layer
         model.add(Flatten())
         # 1st  FC => RELU Layer
-        model.add(Dense(4096))
-        model.add(BatchNormalization())
+        model.add(Dense(1024, kernel_regularizer=regularizers.l2(0.01)))
+        model.add(BatchNormalization(axis=chanDim))
         model.add(Activation("relu"))
         model.add(Dropout(0.5))
 
         # 2nd  FC => RELU Layer
-        model.add(Dense(4096))
-        model.add(BatchNormalization())
+        model.add(Dense(1024, kernel_regularizer=regularizers.l2(0.01)))
+        model.add(BatchNormalization(axis=chanDim))
         model.add(Activation("relu"))
         model.add(Dropout(0.5))
 

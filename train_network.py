@@ -5,6 +5,7 @@ from keras.utils import to_categorical
 from keras.optimizers import Adam
 from network.alexnet import AlexNet
 from network.tinyvgg import TinyVGG
+from network.vgg13 import VGG_13
 from network.vgg16 import VGG_16
 from network.lenet import LeNet
 from imutils import paths
@@ -83,7 +84,7 @@ aug = ImageDataGenerator(rotation_range=30, width_shift_range=0.1,
 
 # 初始化 model
 print("[INFO] compiling model...")
-model = TinyVGG.build(width=IMAGE_DIMS[1], height=IMAGE_DIMS[0],
+model = VGG_13.build(width=IMAGE_DIMS[1], height=IMAGE_DIMS[0],
                       depth=IMAGE_DIMS[2], classes=2)
 opt = Adam(lr=INIT_LR, decay=INIT_LR / EPOCHS)
 model.compile(loss="binary_crossentropy", optimizer=opt,

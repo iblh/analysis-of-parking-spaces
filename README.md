@@ -60,6 +60,7 @@ python test_segment.py -m train_data/v1.model -d train_data/test/
 | PUCPR       | TinyVGG | 200    | 5      | 99.95%      | 99.02%       | 95.77%       |
 | PUCPR       | TinyVGG | 1000   | 5      | 99.99%      | 98.17%       | 96.25%       |
 | PUCPR       | LeNet   | 200    | 5      | 99.84%      | 97.56%       | 84.78%       |
+| PUCPR       | VGG13   | 200    | 5      | 99.97%      | 98.37%       | 95.13%       |
 | PUCPR       | VGG16   | 200    | 5      | 99.77%      | 96.79%       | 92.13%       |
 | ALL         | TinyVGG | 200\*3 | 5      | 99.75%      | 98.80%       | 99.57%       |
 | ALL         | LeNet   | 200\*3 | 5      | 99.58%      | 97.27%       | 98.83%       |
@@ -105,17 +106,19 @@ Epoch 5/5
 (Tensorflow-3.6) C:\Users\AWAKE\Desktop\GP\ips>python calc_accuracy.py
 Using TensorFlow backend.
 [INFO] loading network...
-2019-03-30 22:28:31.908052: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1432] Found device 0 with properties:
+2019-03-31 20:00:34.046661: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1432] Found device 0 with properties:
 name: GeForce GTX 1060 6GB major: 6 minor: 1 memoryClockRate(GHz): 1.7845
 pciBusID: 0000:01:00.0
 totalMemory: 6.00GiB freeMemory: 4.96GiB
-2019-03-30 22:28:31.915883: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1511] Adding visible gpu devices: 0
-2019-03-30 22:28:32.932587: I tensorflow/core/common_runtime/gpu/gpu_device.cc:982] Device interconnect StreamExecutor with strength 1 edge matrix:
-2019-03-30 22:28:32.937472: I tensorflow/core/common_runtime/gpu/gpu_device.cc:988]      0
-2019-03-30 22:28:32.939904: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1001] 0:   N
-2019-03-30 22:28:32.942571: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1115] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 4714 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1060 6GB, pci bus id: 0000:01:00.0, compute capability: 6.1)
-100%|########################################################################################################| 20000/20000 [03:24<00:00, 97.80it/s]
-Accuracy: 96.76%
+2019-03-31 20:00:34.055607: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1511] Adding visible gpu devices: 0
+2019-03-31 20:00:35.094689: I tensorflow/core/common_runtime/gpu/gpu_device.cc:982] Device interconnect StreamExecutor with strength 1 edge matrix:
+2019-03-31 20:00:35.100110: I tensorflow/core/common_runtime/gpu/gpu_device.cc:988]      0
+2019-03-31 20:00:35.103378: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1001] 0:   N
+2019-03-31 20:00:35.107615: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1115] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 4714 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1060 6GB, pci bus id: 0000:01:00.0, compute capability: 6.1)
+100%|#######################################################################################################| 60000/60000 [05:02<00:00, 198.42it/s]
+Accuracy of PUCPR: 98.87%
+Accuracy of UFPR04: 95.65%
+Accuracy of UFPR05: 86.81%
 ```
 
 ## References
