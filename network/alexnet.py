@@ -25,7 +25,7 @@ class AlexNet:
             chanDim = 1
 
         # Block 1  CONV => RELU => POOL
-        model.add(Conv2D(filters=96, input_shape=inputShape, kernel_size=(11, 11),
+        model.add(Conv2D(filters=24, input_shape=inputShape, kernel_size=(11, 11),
                          strides=(4, 4), padding='same'))
         model.add(BatchNormalization(axis=chanDim))
         model.add(Activation('relu'))
@@ -33,7 +33,7 @@ class AlexNet:
                                strides=(2, 2), padding='same'))
 
         # Block 2  CONV => RELU => POOL
-        model.add(Conv2D(filters=256,
+        model.add(Conv2D(filters=64,
                          kernel_size=(11, 11), strides=(1, 1), padding='same'))
         model.add(BatchNormalization(axis=chanDim))
         model.add(Activation('relu'))
@@ -41,19 +41,19 @@ class AlexNet:
                                strides=(2, 2), padding='same'))
 
         # Block 3  CONV => RELU
-        model.add(Conv2D(filters=384,
+        model.add(Conv2D(filters=96,
                          kernel_size=(3, 3), strides=(1, 1), padding='same'))
         model.add(BatchNormalization(axis=chanDim))
         model.add(Activation('relu'))
 
         # Block 4  CONV => RELU
-        model.add(Conv2D(filters=384,
+        model.add(Conv2D(filters=96,
                          kernel_size=(3, 3), strides=(1, 1), padding='same'))
         model.add(BatchNormalization(axis=chanDim))
         model.add(Activation('relu'))
 
         # Block 5  CONV => RELU => POOL
-        model.add(Conv2D(filters=256,
+        model.add(Conv2D(filters=64,
                          kernel_size=(3, 3), strides=(1, 1), padding='same'))
         model.add(BatchNormalization(axis=chanDim))
         model.add(Activation('relu'))
@@ -63,20 +63,20 @@ class AlexNet:
         # Passing it to a dense layer
         model.add(Flatten())
         # 1st  FC => RELU Layer
-        model.add(Dense(4096, input_shape=(40*40*3,)))
+        model.add(Dense(1024))
         model.add(BatchNormalization(axis=chanDim))
         model.add(Activation('relu'))
         # Add Dropout to prevent overfitting
         model.add(Dropout(0.5))
 
         # 2nd  FC => RELU layer
-        model.add(Dense(4096))
+        model.add(Dense(1024))
         model.add(BatchNormalization(axis=chanDim))
         model.add(Activation('relu'))
         model.add(Dropout(0.5))
 
         # 3rd  FC => RELU layer
-        model.add(Dense(1000))
+        model.add(Dense(256))
         model.add(BatchNormalization(axis=chanDim))
         model.add(Activation('relu'))
         model.add(Dropout(0.5))
