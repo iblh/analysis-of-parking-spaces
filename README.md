@@ -6,7 +6,7 @@
 .
 ├── network/
 |   ├── lenet.py
-|   └── tinyvgg.py
+|   └── minivgg.py
 ├── src_img/
 |   ├── PUCPR/
 |   ├── UFPR04/
@@ -41,9 +41,9 @@
 
 ```bash
 # train network
-python train_network.py -d train_data/train/ -m train_data/models/tinyvgg-200.model
+python train_network.py -d train_data/train/ -m train_data/models/minivgg-200.model
 
-python train_network.py -d train_data/train/pucpr -m train_data/models/tinyvgg-pucpr-200.model
+python train_network.py -d train_data/train/pucpr -m train_data/models/minivgg-pucpr-200.model
 
 # test network
 python test_segment.py -m train_data/v1.model -d train_data/test/
@@ -56,13 +56,13 @@ python test_segment.py -m train_data/v1.model -d train_data/test/
 | Parking lot | Network  | Images | Epochs | Acc (PUCPR) | Acc (UFPR04) | Acc (UFPR05) |
 | ----------- | -------- | ------ | ------ | ----------- | ------------ | ------------ |
 | PUCPR       | AlexNet* | 200    | 5      | 99.87%      | 98.06%       | 94.69%       |
-| PUCPR       | TinyVGG  | 100    | 5      | 89.72%      | 49.41%       | 88.92%       |
-| PUCPR       | TinyVGG* | 200    | 5      | 99.95%      | 99.02%       | 95.77%       |
-| PUCPR       | TinyVGG  | 1000   | 5      | 99.99%      | 98.17%       | 96.25%       |
+| PUCPR       | MiniVGG  | 100    | 5      | 89.72%      | 49.41%       | 88.92%       |
+| PUCPR       | MiniVGG* | 200    | 5      | 99.95%      | 99.02%       | 95.77%       |
+| PUCPR       | MiniVGG  | 1000   | 5      | 99.99%      | 98.17%       | 96.25%       |
 | PUCPR       | LeNet    | 200    | 5      | 99.84%      | 97.56%       | 84.78%       |
 | PUCPR       | VGG13*   | 200    | 5      | 99.97%      | 98.37%       | 95.13%       |
 | PUCPR       | VGG16    | 200    | 5      | 99.77%      | 96.79%       | 92.13%       |
-| ALL         | TinyVGG  | 200\*3 | 5      | 99.75%      | 98.80%       | 99.57%       |
+| ALL         | MiniVGG  | 200\*3 | 5      | 99.75%      | 98.80%       | 99.57%       |
 | ALL         | LeNet    | 200\*3 | 5      | 99.58%      | 97.27%       | 98.83%       |
 | ALL         | VGG13    | 200*3  | 5      | 99.67%      | 98.79%       | 99.07%       |
 | ALL         | VGG16    | 200\*3 | 5      | 93.20%      | 77.69%       | 98.87%       |
