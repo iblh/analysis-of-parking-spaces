@@ -5,7 +5,6 @@ from keras.layers.core import Flatten
 from keras.layers.core import Dropout
 from keras.layers.core import Dense
 from keras.models import Sequential
-from keras.optimizers import SGD
 from keras import regularizers
 from keras import backend as K
 import numpy as np

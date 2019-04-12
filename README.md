@@ -35,17 +35,24 @@
 - [CUDA](https://developer.nvidia.com/cuda-90-download-archive) (9.0)
 - [cuDNN](https://developer.nvidia.com/rdp/cudnn-download) (≥7.4.1 for CUDA 9.0)
 - [Anaconda](https://www.anaconda.com/distribution/)
+
+## Datasets
+
 - [Parking Lot Database](http://web.inf.ufpr.br/vri/databases/parking-lot-database/)
+  - PUCPR: 4474 pics
+  - UFPR04: 3791 pics
+  - UFPR05: 4152 pics
 
 ## Command
 
 ```bash
-# train network
-python train_network.py -d train_data/train/ -m train_data/models/minivgg-200.model
+# Train network (all datasets)
+python train_network.py -i train_data/train/ -o train_data/models/minivgg/all
 
-python train_network.py -d train_data/train/pucpr -m train_data/models/minivgg-pucpr-200.model
+# Train network (specific dataset)
+python train_network.py -i train_data/train/pucpr -o train_data/models/minivgg/pucpr
 
-# test network
+# Test network
 python test_segment.py -m train_data/v1.model -d train_data/test/
 ```
 
@@ -53,21 +60,59 @@ python test_segment.py -m train_data/v1.model -d train_data/test/
 
 > All accuracy tests are based on 20,000 parking spaces
 
-| Parking lot | Network  | Images | Epochs | Acc (PUCPR) | Acc (UFPR04) | Acc (UFPR05) |
-| ----------- | -------- | ------ | ------ | ----------- | ------------ | ------------ |
-| PUCPR       | AlexNet* | 200    | 5      | 99.87%      | 98.06%       | 94.69%       |
-| PUCPR       | MiniVGG  | 100    | 5      | 89.72%      | 49.41%       | 88.92%       |
-| PUCPR       | MiniVGG* | 200    | 5      | 99.95%      | 99.02%       | 95.77%       |
-| PUCPR       | MiniVGG  | 1000   | 5      | 99.99%      | 98.17%       | 96.25%       |
-| PUCPR       | LeNet    | 200    | 5      | 99.84%      | 97.56%       | 84.78%       |
-| PUCPR       | VGG13*   | 200    | 5      | 99.97%      | 98.37%       | 95.13%       |
-| PUCPR       | VGG16    | 200    | 5      | 99.77%      | 96.79%       | 92.13%       |
-| ALL         | MiniVGG  | 200\*3 | 5      | 99.75%      | 98.80%       | 99.57%       |
-| ALL         | LeNet    | 200\*3 | 5      | 99.58%      | 97.27%       | 98.83%       |
-| ALL         | VGG13    | 200*3  | 5      | 99.67%      | 98.79%       | 99.07%       |
-| ALL         | VGG16    | 200\*3 | 5      | 93.20%      | 77.69%       | 98.87%       |
-| ALL         | VGG16    | 200\*3 | 10     | 98.08%      | 92.81%       | 96.76%       |
-| ALL         | VGG16    | 200\*3 | 15     | 97.48%      | 95.17%       | 98.05%       |
+| Parking lot | Network | Acc (PUCPR) | Acc (UFPR04) | Acc (UFPR05) |
+| ----------- | ------- | ----------- | ------------ | ------------ |
+| PUCPR       | AlexNet | 99.87%      | 98.06%       | 94.69%       |
+| PUCPR       | LeNet   | 99.84%      | 97.56%       | 84.78%       |
+| PUCPR       | MiniVGG | 99.95%      | 99.02%       | 95.77%       |
+| PUCPR       | VGG13   | 99.97%      | 98.37%       | 95.13%       |
+| PUCPR       | VGG16   | 99.77%      | 96.79%       | 92.13%       |
+| ALL         | AlexNet | 99.44%      | 93.01%       | 98.52%       |
+| ALL         | LeNet   | 99.58%      | 97.27%       | 98.83%       |
+| ALL         | MiniVGG | 99.75%      | 98.80%       | 99.57%       |
+| ALL         | VGG13   | 99.67%      | 98.79%       | 99.07%       |
+| ALL         | VGG16   | 93.20%      | 77.69%       | 98.87%       |
+
+> PUCPR 36 days
+>
+> UFPR04 31 days
+>
+> UFPR05 33 days
+>
+> About 12 hours (6am - 6pm)
+>
+> 12 sheets per hour (Take one shot every 5 minutes)
+>
+> 12x0.2=2.4, 2.4x2.4=5.76, 5.76x33=190
+
+| Parking lot | Network | Images | Acc (PUCPR) | Acc (UFPR04) | Acc (UFPR05) |
+| ----------- | ------- | ------ | ----------- | ------------ | ------------ |
+| PUCPR       | MiniVGG | 100    | 89.72%      | 49.41%       | 88.92%       |
+| PUCPR       | MiniVGG | 200    | 99.95%      | 99.02%       | 95.77%       |
+| PUCPR       | MiniVGG | 1000   | 99.99%      | 98.17%       | 96.25%       |
+
+| Parking lot | Network | Epochs | Acc (PUCPR) | Acc (UFPR04) | Acc (UFPR05) |
+| ----------- | ------- | ------ | ----------- | ------------ | ------------ |
+| ALL         | VGG16   | 5      | 93.20%      | 77.69%       | 98.87%       |
+| ALL         | VGG16   | 10     | 98.08%      | 92.81%       | 96.76%       |
+| ALL         | VGG16   | 15     | 97.48%      | 95.17%       | 98.05%       |
+
+
+
+## Regularization
+
+> Use PUCPR training set & MiniVGG network
+
+| Id   | Method              | Acc (PUCPR) | Acc (UFPR04) | Acc (UFPR05) |
+| ---- | ------------------- | ----------- | ------------ | ------------ |
+| r0   | None                |             |              |              |
+| r1   | Batch Normalization |             |              |              |
+| r2   | L2 regularization   |             |              |              |
+| r3   | Dropout             |             |              |              |
+| r4   | BN + Dropout        | 99.95%      | 99.02%       | 95.77%       |
+| r5   | BN + L2 + Dropout   |             |              |              |
+
+
 
 ## Verbose
 

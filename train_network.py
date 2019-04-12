@@ -4,7 +4,7 @@ from keras.preprocessing.image import img_to_array
 from keras.utils import to_categorical
 from keras.optimizers import Adam
 from network.alexnet import AlexNet
-from network.tinyvgg import TinyVGG
+from network.minivgg import MiniVGG
 from network.vgg13 import VGG_13
 from network.vgg16 import VGG_16
 from network.lenet import LeNet
@@ -16,17 +16,19 @@ import argparse
 import random
 import cv2
 import os
-matplotlib.use("Agg")
+matplotlib.use('Agg')
 
 
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
-ap.add_argument("-d", "--dataset", required=True,
-                help="path to input dataset")
-ap.add_argument("-m", "--model", required=True,
-                help="path to output model")
-ap.add_argument("-p", "--plot", type=str, default="./train_data/models/plot.png",
-                help="path to output accuracy/loss plot")
+ap.add_argument('-i', '--input', required=True,
+                help='path to input dataset')
+ap.add_argument('-o', '--output', required=True,
+                help='path to output model and plot')
+# ap.add_argument('-m', '--model', required=True,
+#                 help='path to output model')
+# ap.add_argument('-p', '--plot', type=str, default='./train_data/models/plot.png',
+#                 help='path to output accuracy/loss plot')
 args = vars(ap.parse_args())
 
 
@@ -39,12 +41,12 @@ BS = 32
 IMAGE_DIMS = (40, 40, 3)
 
 # initialize the data and labels
-print("[INFO] loading images...")
+print('[INFO] loading images...')
 data = []
 labels = []
 
 # grab the image paths and randomly shuffle them
-imagePaths = sorted(list(paths.list_images(args["dataset"])))
+imagePaths = sorted(list(paths.list_images(args['input'])))
 random.seed(42)
 random.shuffle(imagePaths)
 
@@ -60,11 +62,11 @@ for imagePath in imagePaths:
     # extract the class label from the image path and update the
     # labels list
     label = imagePath.split(os.path.sep)[-2]
-    label = 1 if label == "occupied" else 0
+    label = 1 if label == 'occupied' else 0
     labels.append(label)
 
 # scale the raw pixel intensities to the range [0, 1]
-data = np.array(data, dtype="float") / 255.0
+data = np.array(data, dtype='float') / 255.0
 labels = np.array(labels)
 
 # partition the data into training and testing splits using 80% of
@@ -79,19 +81,19 @@ testY = to_categorical(testY, num_classes=2)
 # construct the image generator for data augmentation
 aug = ImageDataGenerator(rotation_range=30, width_shift_range=0.1,
                          height_shift_range=0.1, shear_range=0.2, zoom_range=0.2,
-                         horizontal_flip=True, fill_mode="nearest")
+                         horizontal_flip=True, fill_mode='nearest')
 
 
 # 初始化 model
-print("[INFO] compiling model...")
-model = VGG_13.build(width=IMAGE_DIMS[1], height=IMAGE_DIMS[0],
+print('[INFO] compiling model...')
+model = MiniVGG.build(width=IMAGE_DIMS[1], height=IMAGE_DIMS[0],
                       depth=IMAGE_DIMS[2], classes=2)
 opt = Adam(lr=INIT_LR, decay=INIT_LR / EPOCHS)
-model.compile(loss="binary_crossentropy", optimizer=opt,
-              metrics=["accuracy"])
+model.compile(loss='binary_crossentropy', optimizer=opt,
+              metrics=['accuracy'])
 
 # train the network
-print("[INFO] training network...")
+print('[INFO] training network...')
 H = model.fit_generator(
     aug.flow(trainX, trainY, batch_size=BS),
     validation_data=(testX, testY),
@@ -99,21 +101,21 @@ H = model.fit_generator(
     epochs=EPOCHS, verbose=1)
 
 # save the model to disk
-print("[INFO] serializing network...")
-model.save(args["model"])
+print('[INFO] serializing network...')
+model.save(args['output'] + '.model')
 
 # plot the training loss and accuracy
-plt.style.use("ggplot")
+plt.style.use('ggplot')
 fig, ax = plt.subplots(2, sharex=True)
-fig.suptitle("Training Loss and Accuracy on empty/occupied")
+fig.suptitle('Training Loss and Accuracy on empty/occupied')
 N = EPOCHS
 
-ax[0].plot(np.arange(0, N), H.history["loss"], label="train_loss")
-ax[0].plot(np.arange(0, N), H.history["val_loss"], label="val_loss")
-ax[0].legend(loc="lower left")
+ax[0].plot(np.arange(0, N), H.history['loss'], label='train_loss')
+ax[0].plot(np.arange(0, N), H.history['val_loss'], label='val_loss')
+ax[0].legend(loc='lower left')
 
-ax[1].plot(np.arange(0, N), H.history["acc"], label="train_acc")
-ax[1].plot(np.arange(0, N), H.history["val_acc"], label="val_acc")
-ax[1].legend(loc="lower left")
+ax[1].plot(np.arange(0, N), H.history['acc'], label='train_acc')
+ax[1].plot(np.arange(0, N), H.history['val_acc'], label='val_acc')
+ax[1].legend(loc='lower left')
 
-plt.savefig(args["plot"])
+plt.savefig(args['output'] + '.png')
