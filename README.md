@@ -5,8 +5,11 @@
 ```bash
 .
 ├── network/
+|   ├── alexnet.py
 |   ├── lenet.py
-|   └── minivgg.py
+|   ├── vgg7.py
+|   ├── vgg13v.py
+|   └── vgg16.py
 ├── src_img/
 |   ├── PUCPR/
 |   ├── UFPR04/
@@ -47,10 +50,10 @@
 
 ```bash
 # Train network (all datasets)
-python train_network.py -i train_data/train/ -o train_data/models/minivgg/all
+python train_network.py -i train_data/train/ -o train_data/models/vgg7/all
 
 # Train network (specific dataset)
-python train_network.py -i train_data/train/pucpr -o train_data/models/minivgg/pucpr
+python train_network.py -i train_data/train/pucpr -o train_data/models/vgg7/pucpr
 
 # Test network
 python test_segment.py -m train_data/v1.model -d train_data/test/
@@ -64,14 +67,14 @@ python test_segment.py -m train_data/v1.model -d train_data/test/
 | ----------- | ------- | ----------- | ------------ | ------------ |
 | PUCPR       | AlexNet | 99.87%      | 98.06%       | 94.69%       |
 | PUCPR       | LeNet   | 99.84%      | 97.56%       | 84.78%       |
-| PUCPR       | MiniVGG | 99.95%      | 99.02%       | 95.77%       |
-| PUCPR       | VGG13   | 99.97%      | 98.37%       | 95.13%       |
-| PUCPR       | VGG16   | 99.77%      | 96.79%       | 92.13%       |
+| PUCPR       | VGG-7   | 99.95%      | 99.02%       | 95.77%       |
+| PUCPR       | VGG-13V | 99.97%      | 98.37%       | 95.13%       |
+| PUCPR       | VGG-16  | 99.77%      | 96.79%       | 92.13%       |
 | ALL         | AlexNet | 99.44%      | 93.01%       | 98.52%       |
 | ALL         | LeNet   | 99.58%      | 97.27%       | 98.83%       |
-| ALL         | MiniVGG | 99.75%      | 98.80%       | 99.57%       |
-| ALL         | VGG13   | 99.67%      | 98.79%       | 99.07%       |
-| ALL         | VGG16   | 93.20%      | 77.69%       | 98.87%       |
+| ALL         | VGG-7   | 99.75%      | 98.80%       | 99.57%       |
+| ALL         | VGG-13V | 99.67%      | 98.79%       | 99.07%       |
+| ALL         | VGG-16  | 93.20%      | 77.69%       | 98.87%       |
 
 > PUCPR 36 days
 >
@@ -87,19 +90,19 @@ python test_segment.py -m train_data/v1.model -d train_data/test/
 
 | Parking lot | Network | Images | Acc (PUCPR) | Acc (UFPR04) | Acc (UFPR05) |
 | ----------- | ------- | ------ | ----------- | ------------ | ------------ |
-| PUCPR       | MiniVGG | 100    | 89.72%      | 49.41%       | 88.92%       |
-| PUCPR       | MiniVGG | 200    | 99.95%      | 99.02%       | 95.77%       |
-| PUCPR       | MiniVGG | 1000   | 99.99%      | 98.17%       | 96.25%       |
+| PUCPR       | VGG-7   | 100    | 89.72%      | 49.41%       | 88.92%       |
+| PUCPR       | VGG-7   | 200    | 99.95%      | 99.02%       | 95.77%       |
+| PUCPR       | VGG-7   | 1000   | 99.99%      | 98.17%       | 96.25%       |
 
 | Parking lot | Network | Epochs | Acc (PUCPR) | Acc (UFPR04) | Acc (UFPR05) |
 | ----------- | ------- | ------ | ----------- | ------------ | ------------ |
-| ALL         | VGG16   | 5      | 93.20%      | 77.69%       | 98.87%       |
-| ALL         | VGG16   | 10     | 98.08%      | 92.81%       | 96.76%       |
-| ALL         | VGG16   | 15     | 97.48%      | 95.17%       | 98.05%       |
+| ALL         | VGG-16  | 5      | 93.20%      | 77.69%       | 98.87%       |
+| ALL         | VGG-16  | 10     | 98.08%      | 92.81%       | 96.76%       |
+| ALL         | VGG-16  | 15     | 97.48%      | 95.17%       | 98.05%       |
 
 ## Regularization
 
-> Use PUCPR training set & MiniVGG network
+> Use PUCPR training set & VGG-7 network
 
 | Id  | Method              | Acc (PUCPR) | Acc (UFPR04) | Acc (UFPR05) |
 | --- | ------------------- | ----------- | ------------ | ------------ |
@@ -112,14 +115,14 @@ python test_segment.py -m train_data/v1.model -d train_data/test/
 
 > Use PUCPR training set & VGG-13 network
 
-| Id   | Method              | Acc (PUCPR) | Acc (UFPR04) | Acc (UFPR05) |
-| ---- | ------------------- | ----------- | ------------ | ------------ |
-| r0   | None                | 00.00%      | 00.00%       | 00.00%       |
-| r1   | Batch Normalization | 00.00%      | 00.00%       | 00.00%       |
-| r2   | L2 regularization   | 00.00%      | 00.00%       | 00.00%       |
-| r3   | Dropout             | 00.00%      | 00.00%       | 00.00%       |
-| r4   | BN + Dropout        | 99.82%      | 94.05%       | 93.66%       |
-| r5   | BN + L2 + Dropout   | 99.97%      | 98.37%       | 95.13%       |
+| Id  | Method              | Acc (PUCPR) | Acc (UFPR04) | Acc (UFPR05) |
+| --- | ------------------- | ----------- | ------------ | ------------ |
+| r0  | None                | 00.00%      | 00.00%       | 00.00%       |
+| r1  | Batch Normalization | 00.00%      | 00.00%       | 00.00%       |
+| r2  | L2 regularization   | 00.00%      | 00.00%       | 00.00%       |
+| r3  | Dropout             | 00.00%      | 00.00%       | 00.00%       |
+| r4  | BN + Dropout        | 99.82%      | 94.05%       | 93.66%       |
+| r5  | BN + L2 + Dropout   | 99.97%      | 98.37%       | 95.13%       |
 
 ## Verbose
 

@@ -11,7 +11,7 @@ import numpy as np
 import cv2
 
 
-class VGG_16:
+class VGG16:
     @staticmethod
     def build(width, height, depth, classes):
         model = Sequential()

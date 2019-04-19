@@ -10,7 +10,7 @@ from keras import regularizers
 from keras import backend as K
 
 
-class MiniVGG:
+class VGG7:
     @staticmethod
     def build(width, height, depth, classes):
         # initialize the model along with the input shape to be

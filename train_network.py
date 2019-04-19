@@ -4,10 +4,11 @@ from keras.preprocessing.image import img_to_array
 from keras.utils import to_categorical
 from keras.optimizers import Adam
 from network.alexnet import AlexNet
-from network.minivgg import MiniVGG
-from network.vgg13 import VGG_13
-from network.vgg16 import VGG_16
+from network.vgg13v import VGG13_V
 from network.lenet import LeNet
+from network.vgg16 import VGG16
+from network.lenet import LeNet
+from network.vgg7 import VGG7
 from imutils import paths
 import matplotlib.pyplot as plt
 import numpy as np
@@ -86,8 +87,8 @@ aug = ImageDataGenerator(rotation_range=30, width_shift_range=0.1,
 
 # 初始化 model
 print('[INFO] compiling model...')
-model = MiniVGG.build(width=IMAGE_DIMS[1], height=IMAGE_DIMS[0],
-                      depth=IMAGE_DIMS[2], classes=2)
+model = VGG13_V.build(width=IMAGE_DIMS[1], height=IMAGE_DIMS[0],
+                     depth=IMAGE_DIMS[2], classes=2)
 opt = Adam(lr=INIT_LR, decay=INIT_LR / EPOCHS)
 model.compile(loss='binary_crossentropy', optimizer=opt,
               metrics=['accuracy'])
