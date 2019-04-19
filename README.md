@@ -83,7 +83,7 @@ python test_segment.py -m train_data/v1.model -d train_data/test/
 >
 > 12 sheets per hour (Take one shot every 5 minutes)
 >
-> 12x0.2=2.4, 2.4x2.4=5.76, 5.76x33=190
+> 12x12x0.2=28.8, 33x0.2=6.6, 28.8x6.6=190.08
 
 | Parking lot | Network | Images | Acc (PUCPR) | Acc (UFPR04) | Acc (UFPR05) |
 | ----------- | ------- | ------ | ----------- | ------------ | ------------ |
@@ -97,22 +97,29 @@ python test_segment.py -m train_data/v1.model -d train_data/test/
 | ALL         | VGG16   | 10     | 98.08%      | 92.81%       | 96.76%       |
 | ALL         | VGG16   | 15     | 97.48%      | 95.17%       | 98.05%       |
 
-
-
 ## Regularization
 
 > Use PUCPR training set & MiniVGG network
 
+| Id  | Method              | Acc (PUCPR) | Acc (UFPR04) | Acc (UFPR05) |
+| --- | ------------------- | ----------- | ------------ | ------------ |
+| r0  | None                | 99.81%      | 92.55%       | 92.53%       |
+| r1  | Batch Normalization | 99.94%      | 96.73%       | 91.02%       |
+| r2  | L2 regularization   | 99.43%      | 91.27%       | 77.62%       |
+| r3  | Dropout             | 99.95%      | 96.95%       | 92.84%       |
+| r4  | BN + Dropout        | 99.95%      | 99.02%       | 95.77%       |
+| r5  | BN + L2 + Dropout   | 99.87%      | 92.51%       | 94.45%       |
+
+> Use PUCPR training set & VGG-13 network
+
 | Id   | Method              | Acc (PUCPR) | Acc (UFPR04) | Acc (UFPR05) |
 | ---- | ------------------- | ----------- | ------------ | ------------ |
-| r0   | None                |             |              |              |
-| r1   | Batch Normalization |             |              |              |
-| r2   | L2 regularization   |             |              |              |
-| r3   | Dropout             |             |              |              |
-| r4   | BN + Dropout        | 99.95%      | 99.02%       | 95.77%       |
-| r5   | BN + L2 + Dropout   |             |              |              |
-
-
+| r0   | None                | 00.00%      | 00.00%       | 00.00%       |
+| r1   | Batch Normalization | 00.00%      | 00.00%       | 00.00%       |
+| r2   | L2 regularization   | 00.00%      | 00.00%       | 00.00%       |
+| r3   | Dropout             | 00.00%      | 00.00%       | 00.00%       |
+| r4   | BN + Dropout        | 99.82%      | 94.05%       | 93.66%       |
+| r5   | BN + L2 + Dropout   | 99.97%      | 98.37%       | 95.13%       |
 
 ## Verbose
 

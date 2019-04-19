@@ -91,19 +91,19 @@ class VGG_16:
 
         # Passing it to a dense layer
         model.add(Flatten())
-        # 1st  FC => RELU Layer
+        # FC => RELU Layer
         model.add(Dense(4096))
         model.add(BatchNormalization())
         model.add(Activation("relu"))
         model.add(Dropout(0.5))
 
-        # 2nd  FC => RELU Layer
+        # FC => RELU Layer
         model.add(Dense(4096))
         model.add(BatchNormalization())
         model.add(Activation("relu"))
         model.add(Dropout(0.5))
 
-        # softmax classifier
+        # FC => softmax classifier
         model.add(Dense(classes))
         model.add(Activation("softmax"))
 

@@ -62,26 +62,26 @@ class AlexNet:
 
         # Passing it to a dense layer
         model.add(Flatten())
-        # 1st  FC => RELU Layer
+        # FC => RELU Layer
         model.add(Dense(1024))
         model.add(BatchNormalization(axis=chanDim))
         model.add(Activation('relu'))
         # Add Dropout to prevent overfitting
         model.add(Dropout(0.5))
 
-        # 2nd  FC => RELU layer
+        # FC => RELU layer
         model.add(Dense(1024))
         model.add(BatchNormalization(axis=chanDim))
         model.add(Activation('relu'))
         model.add(Dropout(0.5))
 
-        # 3rd  FC => RELU layer
+        # FC => RELU layer
         model.add(Dense(256))
         model.add(BatchNormalization(axis=chanDim))
         model.add(Activation('relu'))
         model.add(Dropout(0.5))
 
-        # softmax classifier
+        # FC => softmax classifier
         model.add(Dense(classes))
         model.add(Activation("softmax"))
 

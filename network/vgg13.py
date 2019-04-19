@@ -73,19 +73,19 @@ class VGG_13:
 
         # Passing it to a dense layer
         model.add(Flatten())
-        # 1st  FC => RELU Layer
+        # FC => RELU Layer
         model.add(Dense(1024, kernel_regularizer=regularizers.l2(0.01)))
         model.add(BatchNormalization(axis=chanDim))
         model.add(Activation("relu"))
         model.add(Dropout(0.5))
 
-        # 2nd  FC => RELU Layer
+        # FC => RELU Layer
         model.add(Dense(1024, kernel_regularizer=regularizers.l2(0.01)))
         model.add(BatchNormalization(axis=chanDim))
         model.add(Activation("relu"))
         model.add(Dropout(0.5))
 
-        # softmax classifier
+        # FC => softmax classifier
         model.add(Dense(classes))
         model.add(Activation("softmax"))
 

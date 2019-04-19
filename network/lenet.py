@@ -31,11 +31,11 @@ class LeNet:
 
         # Passing it to a dense layer
         model.add(Flatten())
-        # 1st (and only)  FC => RELU layers
+        # FC => RELU layers
         model.add(Dense(500))
         model.add(Activation("relu"))
 
-        # softmax classifier
+        # FC => softmax classifier
         model.add(Dense(classes))
         model.add(Activation("softmax"))
 
