@@ -61,13 +61,28 @@ python test_segment.py -m train_data/v1.model -d train_data/test/
 
 ## Accuracy
 
-> All accuracy tests are based on 20,000 parking spaces
+How to decide training size:
+
+> PUCPR 36 days, UFPR04 31 days, UFPR05 33 days
+>
+> About 12 hours (6am - 6pm), 12 sheets per hour (Take one shot every 5 minutes)
+>
+> 12x12x0.2=28.8, 33x0.2=6.6, 28.8x6.6=190.08
+
+Parameters:
+
+> Testing size: 20,000 parking spaces on each parking lot
+>
+> Training images: 200
+>
+> Epochs: 5
 
 | Parking lot | Network | Acc (PUCPR) | Acc (UFPR04) | Acc (UFPR05) |
 | ----------- | ------- | ----------- | ------------ | ------------ |
 | PUCPR       | AlexNet | 99.87%      | 98.06%       | 94.69%       |
 | PUCPR       | LeNet   | 99.84%      | 97.56%       | 84.78%       |
 | PUCPR       | VGG-7   | 99.95%      | 99.02%       | 95.77%       |
+| PUCPR       | VGG-13  | 99.93%      | 94.28%       | 92.81%       |
 | PUCPR       | VGG-13V | 99.97%      | 98.37%       | 95.13%       |
 | PUCPR       | VGG-16  | 99.77%      | 96.79%       | 92.13%       |
 | ALL         | AlexNet | 99.44%      | 93.01%       | 98.52%       |
@@ -76,17 +91,7 @@ python test_segment.py -m train_data/v1.model -d train_data/test/
 | ALL         | VGG-13V | 99.67%      | 98.79%       | 99.07%       |
 | ALL         | VGG-16  | 93.20%      | 77.69%       | 98.87%       |
 
-> PUCPR 36 days
->
-> UFPR04 31 days
->
-> UFPR05 33 days
->
-> About 12 hours (6am - 6pm)
->
-> 12 sheets per hour (Take one shot every 5 minutes)
->
-> 12x12x0.2=28.8, 33x0.2=6.6, 28.8x6.6=190.08
+> Epochs: 5
 
 | Parking lot | Network | Images | Acc (PUCPR) | Acc (UFPR04) | Acc (UFPR05) |
 | ----------- | ------- | ------ | ----------- | ------------ | ------------ |
@@ -94,11 +99,29 @@ python test_segment.py -m train_data/v1.model -d train_data/test/
 | PUCPR       | VGG-7   | 200    | 99.95%      | 99.02%       | 95.77%       |
 | PUCPR       | VGG-7   | 1000   | 99.99%      | 98.17%       | 96.25%       |
 
+> Training images: 200
+
 | Parking lot | Network | Epochs | Acc (PUCPR) | Acc (UFPR04) | Acc (UFPR05) |
 | ----------- | ------- | ------ | ----------- | ------------ | ------------ |
 | ALL         | VGG-16  | 5      | 93.20%      | 77.69%       | 98.87%       |
 | ALL         | VGG-16  | 10     | 98.08%      | 92.81%       | 96.76%       |
 | ALL         | VGG-16  | 15     | 97.48%      | 95.17%       | 98.05%       |
+
+> Training images: 800
+
+| Parking lot | Network | Epochs | Acc (PUCPR) | Acc (UFPR04) | ACC (UFPR05) |
+| ----------- | ------- | ------ | ----------- | ------------ | ------------ |
+| ALL         | VGG-7   | 5      | 99.94%      | 99.09%       | 99.44%       |
+| ALL         | VGG-7   | 8      | 99.69%      | 98.47%       | 99.30%       |
+| ALL         | VGG-7   | 12     | 99.99%      | 99.72%       | 99.52%       |
+
+
+
+| Parking lot | Network | Epochs | Acc (PUCPR) | Acc (UFPR04) | ACC (UFPR05) |
+| ----------- | ------- | ------ | ----------- | ------------ | ------------ |
+| ALL         | VGG-13V | 5      |             |              |              |
+| ALL         | VGG-13V | 10     |             |              |              |
+| ALL         | VGG-13V | 20     | 99.95%      | 99.63%       | 99.38%       |
 
 ## Regularization
 
@@ -113,7 +136,7 @@ python test_segment.py -m train_data/v1.model -d train_data/test/
 | r4  | BN + Dropout        | 99.95%      | 99.02%       | 95.77%       |
 | r5  | BN + L2 + Dropout   | 99.87%      | 92.51%       | 94.45%       |
 
-> Use PUCPR training set & VGG-13 network
+> Use PUCPR training set & VGG-13V network
 
 | Id  | Method              | Acc (PUCPR) | Acc (UFPR04) | Acc (UFPR05) |
 | --- | ------------------- | ----------- | ------------ | ------------ |

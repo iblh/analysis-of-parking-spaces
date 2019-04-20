@@ -6,6 +6,7 @@ from keras.optimizers import Adam
 from network.alexnet import AlexNet
 from network.vgg13v import VGG13_V
 from network.lenet import LeNet
+from network.vgg13 import VGG13
 from network.vgg16 import VGG16
 from network.lenet import LeNet
 from network.vgg7 import VGG7

@@ -17,7 +17,7 @@ pl_id = 'pucpr'
 # pl_id = 'ufpr04'
 # pl_id = 'ufpr05'
 rootdir = './src_img/' + pl_id.upper()
-hstdir = './train_data/train/' + pl_id + '/history.json'
+hstdir = './train_data/train/' + str(target) + '/' + pl_id + '/history.json'
 if os.name == 'nt':
     pbar = tqdm(total=target, ascii=True)
 else:
