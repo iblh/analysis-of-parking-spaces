@@ -88,7 +88,7 @@ aug = ImageDataGenerator(rotation_range=30, width_shift_range=0.1,
 
 # 初始化 model
 print('[INFO] compiling model...')
-model = VGG13_V.build(width=IMAGE_DIMS[1], height=IMAGE_DIMS[0],
+model = VGG7.build(width=IMAGE_DIMS[1], height=IMAGE_DIMS[0],
                      depth=IMAGE_DIMS[2], classes=2)
 opt = Adam(lr=INIT_LR, decay=INIT_LR / EPOCHS)
 model.compile(loss='binary_crossentropy', optimizer=opt,

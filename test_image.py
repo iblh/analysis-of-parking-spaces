@@ -11,7 +11,7 @@ import cv2
 dims = (40, 40, 3)
 img_date = '2012-09-11_15_16_58'
 # img_date = '2012-12-20_20_55_16'
-model_path = './train_data/models/vgg16-pucpr-200.model'
+model_path = './train_data/models/vgg7/pucpr-200.model'
 bgr_img = cv2.imread('./train_data/test_img/' + img_date + '.jpg')
 rgb_img = np.array(Image.open('./train_data/test_img/' + img_date + '.jpg'))
 fig, ax = plt.subplots(1, figsize=(15, 9))

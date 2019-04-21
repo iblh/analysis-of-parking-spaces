@@ -115,8 +115,6 @@ Parameters:
 | ALL         | VGG-7   | 8      | 99.69%      | 98.47%       | 99.30%       |
 | ALL         | VGG-7   | 12     | 99.99%      | 99.72%       | 99.52%       |
 
-
-
 | Parking lot | Network | Epochs | Acc (PUCPR) | Acc (UFPR04) | ACC (UFPR05) |
 | ----------- | ------- | ------ | ----------- | ------------ | ------------ |
 | ALL         | VGG-13V | 5      |             |              |              |
@@ -140,10 +138,10 @@ Parameters:
 
 | Id  | Method              | Acc (PUCPR) | Acc (UFPR04) | Acc (UFPR05) |
 | --- | ------------------- | ----------- | ------------ | ------------ |
-| r0  | None                | 00.00%      | 00.00%       | 00.00%       |
-| r1  | Batch Normalization | 00.00%      | 00.00%       | 00.00%       |
-| r2  | L2 regularization   | 00.00%      | 00.00%       | 00.00%       |
-| r3  | Dropout             | 00.00%      | 00.00%       | 00.00%       |
+| r0  | None                | 99.97%      | 98.69%       | 89.49%       |
+| r1  | Batch Normalization | 99.94%      | 97.48%       | 96.37%       |
+| r2  | L2 regularization   | 99.91%      | 96.14%       | 93.39%       |
+| r3  | Dropout             | 55.12%      | 55.67%       | 42.29%       |
 | r4  | BN + Dropout        | 99.82%      | 94.05%       | 93.66%       |
 | r5  | BN + L2 + Dropout   | 99.97%      | 98.37%       | 95.13%       |
 

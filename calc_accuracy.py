@@ -119,7 +119,7 @@ def main(pl_id, target, model, pbar):
 target = 20000
 pl_list = ['pucpr', 'ufpr04', 'ufpr05']
 proba_list = []
-model_path = './train_data/models/tinyvgg-200.model'
+model_path = './train_data/models/vgg13v/pucpr-r1.model'
 
 # 加载训练完成的 CNN 网络模型
 print("[INFO] loading network...")
