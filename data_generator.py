@@ -112,10 +112,10 @@ for img_path in img_paths:
 
         # 保存图片
         if status:
-            cv2.imwrite('./train_data/train/' + pl_id + '/occupied/' +
+            cv2.imwrite('./train_data/train/' + str(target) + '/' + pl_id + '/occupied/' +
                         space.attributes['id'].value + '-' + img_date + '.png', dst)
         else:
-            cv2.imwrite('./train_data/train/' + pl_id + '/empty/' +
+            cv2.imwrite('./train_data/train/' + str(target) + '/' + pl_id + '/empty/' +
                         space.attributes['id'].value + '-' + img_date + '.png', dst)
 
     # 当前文件处理完成

@@ -21,66 +21,62 @@ import os
 matplotlib.use('Agg')
 
 
-# construct the argument parse and parse the arguments
+# 构造参数解析并解析参数
 ap = argparse.ArgumentParser()
 ap.add_argument('-i', '--input', required=True,
                 help='path to input dataset')
 ap.add_argument('-o', '--output', required=True,
                 help='path to output model and plot')
-# ap.add_argument('-m', '--model', required=True,
-#                 help='path to output model')
-# ap.add_argument('-p', '--plot', type=str, default='./train_data/models/plot.png',
-#                 help='path to output accuracy/loss plot')
 args = vars(ap.parse_args())
 
 
-# initialize the number of epochs to train for, initial learning rate,
-# and batch size (the number of training examples utilised in one iteration)
-EPOCHS = 5
+# 初始化要训练的 Epochs，初始学习率，
+# 和 Batch Size (一次迭代中使用的训练样例的数量)
+EPOCHS = 20
 INIT_LR = 1e-3
 BS = 32
 # Height Width Depth
 IMAGE_DIMS = (40, 40, 3)
 
-# initialize the data and labels
+# 初始化数据和标签
 print('[INFO] loading images...')
 data = []
 labels = []
 
-# grab the image paths and randomly shuffle them
+# 获取图像路径并进行伪随机
 imagePaths = sorted(list(paths.list_images(args['input'])))
 random.seed(42)
 random.shuffle(imagePaths)
 
 
-# loop over the input images
+# 循环输入图像
 for imagePath in imagePaths:
-    # load the image, pre-process it, and store it in the data list
+    # 加载图像，进行预处理，并将其存储在数据列表中
     image = cv2.imread(imagePath)
     image = cv2.resize(image, (IMAGE_DIMS[1], IMAGE_DIMS[0]))
     image = img_to_array(image)
     data.append(image)
 
-    # extract the class label from the image path and update the
-    # labels list
+    # 从图像路径中提取标签并更新标签列表
     label = imagePath.split(os.path.sep)[-2]
     label = 1 if label == 'occupied' else 0
     labels.append(label)
 
-# scale the raw pixel intensities to the range [0, 1]
+# 将原始像素强度缩放到 [0,1] 范围
 data = np.array(data, dtype='float') / 255.0
 labels = np.array(labels)
 
-# partition the data into training and testing splits using 80% of
-# the data for training and the remaining 20% for testing
+# 使用 80％ 的数据进行训练，并将剩余的 20％ 用于测试
+# 将数据划分为训练和测试分组
 (trainX, testX, trainY, testY) = train_test_split(data,
                                                   labels, test_size=0.2, random_state=42)
 
-# convert the labels from integers to vectors
+# 由于只有两个类 LabelBinarizer 产生 integer 编码, 而不是 one-hot vector
+# 编码将分类从整数转换为向量，以应用到 categorical_cross-entropy 为目标函数的模型中
 trainY = to_categorical(trainY, num_classes=2)
 testY = to_categorical(testY, num_classes=2)
 
-# construct the image generator for data augmentation
+# 构建用于数据增强的图像生成器
 aug = ImageDataGenerator(rotation_range=30, width_shift_range=0.1,
                          height_shift_range=0.1, shear_range=0.2, zoom_range=0.2,
                          horizontal_flip=True, fill_mode='nearest')
@@ -94,7 +90,7 @@ opt = Adam(lr=INIT_LR, decay=INIT_LR / EPOCHS)
 model.compile(loss='binary_crossentropy', optimizer=opt,
               metrics=['accuracy'])
 
-# train the network
+# 训练网络
 print('[INFO] training network...')
 H = model.fit_generator(
     aug.flow(trainX, trainY, batch_size=BS),
@@ -102,11 +98,11 @@ H = model.fit_generator(
     steps_per_epoch=len(trainX) // BS,
     epochs=EPOCHS, verbose=1)
 
-# save the model to disk
+# 保存模型
 print('[INFO] serializing network...')
 model.save(args['output'] + '.model')
 
-# plot the training loss and accuracy
+# 绘制训练损失率和准确率
 plt.style.use('ggplot')
 fig, ax = plt.subplots(2, sharex=True)
 fig.suptitle('Training Loss and Accuracy on empty/occupied')

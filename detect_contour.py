@@ -9,7 +9,7 @@ img_date = '2012-09-11_15_16_58'
 # img_date = '2012-12-28_11_20_07'
 
 img = np.array(Image.open(
-    './test_images/' + img_date + '.jpg'), dtype=np.uint8)
+    './train_data/test_img/' + img_date + '.jpg'), dtype=np.uint8)
 fig, ax = plt.subplots(1, figsize=(10, 6))
 fig.subplots_adjust(left=0, bottom=0, right=1, top=1,
                     wspace=0, hspace=0)
@@ -18,7 +18,7 @@ plt.axis('off')
 plt.imshow(img)
 
 # 解析 XML
-xmldoc = minidom.parse('./test_images/' + img_date + '.xml')
+xmldoc = minidom.parse('./train_data/test_img/' + img_date + '.xml')
 spacelist = xmldoc.getElementsByTagName('space')
 
 # print(len(spacelist))

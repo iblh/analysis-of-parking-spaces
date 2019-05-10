@@ -25,7 +25,7 @@ xmldoc = minidom.parse('./train_data/test_img/' + img_date + '.xml')
 spacelist = xmldoc.getElementsByTagName('space')
 
 
-# load the trained convolutional neural network
+# 加载训练完成的网络模型
 print("[INFO] loading network...")
 model = load_model(model_path)
 

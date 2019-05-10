@@ -8,6 +8,7 @@
 |   ├── alexnet.py
 |   ├── lenet.py
 |   ├── vgg7.py
+|   ├── vgg13.py
 |   ├── vgg13v.py
 |   └── vgg16.py
 ├── src_img/
@@ -46,18 +47,97 @@
   - UFPR04: 3791 pics
   - UFPR05: 4152 pics
 
-## Command
+## Procedure
+
+### 0. Debug
+
+**Related files:**
+
+- **test_segment.py**
+- train_data/models/
+- train_data/test_seg/
+
+**Parameters type:** cli arguments
+
+**Execute:**
 
 ```bash
-# Train network (all datasets)
+python test_segment.py -m train_data/models/vgg7/pucpr-200.model -d train_data/test_seg/
+```
+
+
+
+**Related files:**
+
+- **detect_contour.py**
+- train_data/test_img/
+
+**Parameters type:** built-in
+
+**Execute:**
+
+```bash
+python detect_contour.py
+```
+
+### 1. Prepare
+
+**Related files:**
+
+- **data_generator.py**
+- src_img/
+- train_data/train/
+
+**Parameters type:** built-in
+
+**Execute:**
+
+```bash
+python data_generator.py
+```
+
+### 2. Train
+
+**Related files:**
+
+- **train_network.py**
+- train_data/train/
+- train_data/models/
+
+**Parameters type:** cli arguments
+
+**Execute:**
+
+```bash
+# All datasets
 python train_network.py -i train_data/train/ -o train_data/models/vgg7/all
 
-# Train network (specific dataset)
+# Specific dataset
 python train_network.py -i train_data/train/pucpr -o train_data/models/vgg7/pucpr
-
-# Test network
-python test_segment.py -m train_data/v1.model -d train_data/test/
 ```
+
+### 3. Assess
+
+**Related files:**
+
+- **test_image.py**
+- **calc_accuracy.py**
+- train_data/models/
+- train_data/test_img/
+
+**Parameters type:** built-in
+
+**Execute:**
+
+```bash
+# Test image
+python test_image.py
+
+# Calc accuracy
+python calc_accuracy.py
+```
+
+
 
 ## Accuracy
 
